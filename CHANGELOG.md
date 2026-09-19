@@ -1,8 +1,10 @@
 # Changelog
 
-Sectioned by Sprint (the team's Scrum terminology), not semver, to match how progress is tracked elsewhere in the project. "Iteration Zero" in the Charter refers to the pre-Sprint planning phase this prototype work happened during.
+Sectioned by Sprint (the team's Scrum terminology) once Sprint 1 actually
+starts (2026-09-21 per the plan); anything before that date falls under
+Iteration Zero, matching the Charter. Not semver.
 
-## Sprint 1 – Stabilised foundation (2026-09-16)
+## Iteration Zero – Technical Prototype and Baseline (2026-09-16)
 
 ### Added
 - Initial prototype: search by item/suburb/category over a single `data/services.json` source of truth (US02–US04)

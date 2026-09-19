@@ -7,6 +7,15 @@ borrow, rental and used-purchase options for household items in Auckland. See
 This is **not** a native app, doesn't hold real-time inventory, and doesn't
 process payments/bookings/accounts — see the Charter's Out of Scope list.
 
+**Scope note (Iteration Zero, 2026-09-16):** the four reuse modes (repair,
+borrow, rent, used-purchase) and the "Suggest a listing" feature shown here
+are Iteration Zero feasibility exploration — they demonstrate that the
+interaction pattern can work, but are **not** confirmed as Sprint 1 scope.
+Per a narrower-scope agreement reached on 2026-09-18, the current MVP target
+is a manually verified set of roughly 20 reuse-related organisations around
+the Auckland CBD and Grafton area; the public-facing submission feature is
+currently **out of scope**.
+
 ## Workflow
 
 Anyone wants something added or changed: open a **GitHub Issue** on this repo
