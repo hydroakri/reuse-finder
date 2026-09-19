@@ -34,7 +34,9 @@ entry, that you edit directly.
    paste it as a new one, or edit an existing one directly.
 3. Fill in every field — leave nothing blank. If you don't know a value yet,
    write `"unknown"` rather than deleting the field.
-   - `category` must be exactly one of: `repair`, `borrow`, `rent`, `used`.
+   - `category` must be exactly one of: `repair`, `borrow`, `rent`, `used`
+     (the schema supports all four; see the Scope note above — which of
+     these actually get real data collected for Sprint 1 is still open).
    - `status` must be exactly one of: `active`, `inactive`, `unconfirmed`.
      (`unverified-sample` is reserved for the placeholder demo entries —
      don't use it for real data.)
@@ -64,6 +66,10 @@ which record and field it's complaining about, fix it in the file, and
 commit again.
 
 ## Suggested-listing review queue
+
+**Currently out of scope** per the Scope note above — the public submission
+feature exists in the Iteration Zero prototype but isn't confirmed for
+Sprint 1. Kept here for reference in case it's picked back up.
 
 The public "Suggest a listing" form (`/submit`) never publishes directly —
 submissions land in `data/pending_submissions.json` for human review. To

@@ -18,7 +18,7 @@
       "membership": "None required (placeholder)",
       "dropoff_pickup": "Drop-off only (placeholder)"
     },
-    "notes": "Schema demonstration entry only. Replace with a manually verified Auckland record before Iteration 1 review."
+    "notes": "Schema demonstration entry only. Replace with a manually verified Auckland record before Sprint 1 review."
   },
   {
     "id": "sample-borrow-001",
@@ -39,7 +39,7 @@
       "membership": "Library of Things card (placeholder)",
       "dropoff_pickup": "Pickup and return in person (placeholder)"
     },
-    "notes": "Schema demonstration entry only. Replace with a manually verified Auckland record before Iteration 1 review."
+    "notes": "Schema demonstration entry only. Replace with a manually verified Auckland record before Sprint 1 review."
   },
   {
     "id": "sample-rent-001",
@@ -60,7 +60,7 @@
       "membership": "None required (placeholder)",
       "dropoff_pickup": "Pickup and return in person (placeholder)"
     },
-    "notes": "Schema demonstration entry only. Replace with a manually verified Auckland record before Iteration 1 review."
+    "notes": "Schema demonstration entry only. Replace with a manually verified Auckland record before Sprint 1 review."
   },
   {
     "id": "sample-used-001",
@@ -81,6 +81,6 @@
       "membership": "None required (placeholder)",
       "dropoff_pickup": "In-store only (placeholder)"
     },
-    "notes": "Schema demonstration entry only. Replace with a manually verified Auckland record before Iteration 1 review."
+    "notes": "Schema demonstration entry only. Replace with a manually verified Auckland record before Sprint 1 review."
   }
 ]
