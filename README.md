@@ -159,18 +159,7 @@ background + markers), this is the first thing to check.
 
 ## Workflow
 
-Progress against the Charter's backlog is tracked as **GitHub Issues** on
-this repo (not yet Jira — that's still an open team decision). Each issue
-title references the User Story or task it belongs to (e.g. "US08", "T2"),
-so it stays traceable back to the Charter without duplicating the Charter's
-content here.
+Anyone wants something added or changed: open a **GitHub Issue** on this repo
+describing it. No labels, templates, or process beyond that.
 
-- **Labels**: `must` / `should` / `could` / `wont` mirror the story's Charter
-  MoSCoW priority; `data` marks anything blocked on the real 20-verified-record
-  dataset (the single biggest recurring blocker right now).
-- **Milestones**: one per Sprint (`Sprint 1 – Stabilised foundation`,
-  `Sprint 2 – Complete discovery`, `Sprint 3 – Evidence-led refinement`).
-- No owners are pre-assigned on issues — per team agreement, Developers pick
-  up work during Sprint Planning rather than having it assigned in advance.
-- See **`CHANGELOG.md`** for what's actually shipped, sprint by sprint, and
-  each sprint's known gaps.
+See **`CHANGELOG.md`** for what's actually shipped and its known gaps.
