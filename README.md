@@ -7,6 +7,13 @@ borrow, rental and used-purchase options for household items in Auckland. See
 This is **not** a native app, doesn't hold real-time inventory, and doesn't
 process payments/bookings/accounts — see the Charter's Out of Scope list.
 
+## Workflow
+
+Anyone wants something added or changed: open a **GitHub Issue** on this repo
+describing it. No labels, templates, or process beyond that.
+
+See [`CHANGELOG.md`](CHANGELOG.md) for what's actually shipped and its known gaps.
+
 ## Adding or editing a data record
 
 All service records live in one file: `data/services.json`. You do **not**
@@ -156,10 +163,3 @@ cp node_modules/maplibre-gl/dist/maplibre-gl-shared.mjs public/
 
 If the map ever silently shows no roads/labels again (just a blank
 background + markers), this is the first thing to check.
-
-## Workflow
-
-Anyone wants something added or changed: open a **GitHub Issue** on this repo
-describing it. No labels, templates, or process beyond that.
-
-See **`CHANGELOG.md`** for what's actually shipped and its known gaps.
