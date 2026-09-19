@@ -1,0 +1,28 @@
+name: Validate data
+
+# Runs scripts/validate_data.js automatically on GitHub's own runner, so
+# nobody has to install anything locally (Node, Nix, or otherwise) just to
+# check an edit to data/services.json. Anyone can edit that file straight
+# in the GitHub web UI and this will report pass/fail on the commit.
+
+on:
+  push:
+    paths:
+      - "data/services.json"
+      - "scripts/validate_data.js"
+      - "scripts/lib/**"
+  pull_request:
+    paths:
+      - "data/services.json"
+      - "scripts/validate_data.js"
+      - "scripts/lib/**"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/validate_data.js

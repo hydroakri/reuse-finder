@@ -1,0 +1,86 @@
+[
+  {
+    "id": "sample-repair-001",
+    "item": "SAMPLE: Bicycle repair",
+    "category": "repair",
+    "suburb": "Ponsonby",
+    "address": "PLACEHOLDER ADDRESS - not a real verified location",
+    "lat": -36.8523,
+    "lng": 174.7445,
+    "source": "SAMPLE DATA - replace before real use",
+    "source_url": "https://example.com",
+    "status": "unverified-sample",
+    "checked_date": "2026-09-16",
+    "conditions": {
+      "hours": "Mon-Fri 9am-5pm (placeholder)",
+      "fee": "Varies by repair (placeholder)",
+      "eligibility": "Open to public (placeholder)",
+      "membership": "None required (placeholder)",
+      "dropoff_pickup": "Drop-off only (placeholder)"
+    },
+    "notes": "Schema demonstration entry only. Replace with a manually verified Auckland record before Iteration 1 review."
+  },
+  {
+    "id": "sample-borrow-001",
+    "item": "SAMPLE: Power drill",
+    "category": "borrow",
+    "suburb": "Grey Lynn",
+    "address": "PLACEHOLDER ADDRESS - not a real verified location",
+    "lat": -36.8663,
+    "lng": 174.7284,
+    "source": "SAMPLE DATA - replace before real use",
+    "source_url": "https://example.com",
+    "status": "unverified-sample",
+    "checked_date": "2026-09-16",
+    "conditions": {
+      "hours": "Sat 10am-2pm (placeholder)",
+      "fee": "Free with membership (placeholder)",
+      "eligibility": "Local residents (placeholder)",
+      "membership": "Library of Things card (placeholder)",
+      "dropoff_pickup": "Pickup and return in person (placeholder)"
+    },
+    "notes": "Schema demonstration entry only. Replace with a manually verified Auckland record before Iteration 1 review."
+  },
+  {
+    "id": "sample-rent-001",
+    "item": "SAMPLE: Pressure washer",
+    "category": "rent",
+    "suburb": "Kingsland",
+    "address": "PLACEHOLDER ADDRESS - not a real verified location",
+    "lat": -36.8697,
+    "lng": 174.7397,
+    "source": "SAMPLE DATA - replace before real use",
+    "source_url": "https://example.com",
+    "status": "unverified-sample",
+    "checked_date": "2026-09-16",
+    "conditions": {
+      "hours": "Daily 8am-6pm (placeholder)",
+      "fee": "$25/day (placeholder)",
+      "eligibility": "18+, ID required (placeholder)",
+      "membership": "None required (placeholder)",
+      "dropoff_pickup": "Pickup and return in person (placeholder)"
+    },
+    "notes": "Schema demonstration entry only. Replace with a manually verified Auckland record before Iteration 1 review."
+  },
+  {
+    "id": "sample-used-001",
+    "item": "SAMPLE: Secondhand winter coats",
+    "category": "used",
+    "suburb": "Mount Eden",
+    "address": "PLACEHOLDER ADDRESS - not a real verified location",
+    "lat": -36.8785,
+    "lng": 174.7633,
+    "source": "SAMPLE DATA - replace before real use",
+    "source_url": "https://example.com",
+    "status": "unverified-sample",
+    "checked_date": "2026-09-16",
+    "conditions": {
+      "hours": "Tue-Sun 10am-4pm (placeholder)",
+      "fee": "Priced individually (placeholder)",
+      "eligibility": "Open to public (placeholder)",
+      "membership": "None required (placeholder)",
+      "dropoff_pickup": "In-store only (placeholder)"
+    },
+    "notes": "Schema demonstration entry only. Replace with a manually verified Auckland record before Iteration 1 review."
+  }
+]
