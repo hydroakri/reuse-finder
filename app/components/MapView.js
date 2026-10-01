@@ -46,6 +46,18 @@ function safeExternalUrl(url) {
   }
 }
 
+// Service pins (repair/borrow/rent/used) stay green; "event" listings (e.g.
+// one-off Repair Café dates pulled from a community newsletter, not an
+// ongoing service) get a visually distinct colour so they don't read as
+// permanent reuse options. Blue is reserved for the "you are here" pin.
+const SERVICE_PIN_COLOR = "#2f6b3a";
+const EVENT_PIN_COLOR = "#d9822b";
+const USER_PIN_COLOR = "#1f5fb0";
+
+function pinColorForCategory(category) {
+  return category === "event" ? EVENT_PIN_COLOR : SERVICE_PIN_COLOR;
+}
+
 function MarkerPin({ color }) {
   return (
     <svg width="24" height="32" viewBox="0 0 24 32" style={{ cursor: "pointer", display: "block" }}>
@@ -150,13 +162,13 @@ export default function MapView({ results, userLocation, onUnavailable }) {
             setSelectedId(result.id);
           }}
         >
-          <MarkerPin color="#2f6b3a" />
+          <MarkerPin color={pinColorForCategory(result.category)} />
         </Marker>
       ))}
 
       {userLocation && (
         <Marker longitude={userLocation.lng} latitude={userLocation.lat} anchor="bottom">
-          <MarkerPin color="#1f5fb0" />
+          <MarkerPin color={USER_PIN_COLOR} />
         </Marker>
       )}
 

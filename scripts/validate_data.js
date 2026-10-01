@@ -8,7 +8,7 @@ const path = require('node:path');
 
 const DATA_FILE = path.join(__dirname, '..', 'data', 'services.json');
 
-const VALID_CATEGORIES = ['repair', 'borrow', 'rent', 'used'];
+const VALID_CATEGORIES = ['repair', 'borrow', 'rent', 'used', 'event'];
 const VALID_STATUSES = ['active', 'inactive', 'unconfirmed', 'unverified-sample'];
 const REQUIRED_STRING_FIELDS = ['id', 'item', 'category', 'suburb', 'source', 'source_url', 'status', 'checked_date'];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;

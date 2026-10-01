@@ -5,6 +5,7 @@ const CATEGORY_LABELS = {
   borrow: "Borrow",
   rent: "Rent",
   used: "Used purchase",
+  event: "Event",
 };
 
 // Only render source_url as a clickable link if it's a genuine http(s) URL —

@@ -19,6 +19,7 @@ const CATEGORIES = [
   { value: "borrow", label: "Borrow" },
   { value: "rent", label: "Rent" },
   { value: "used", label: "Used purchase" },
+  { value: "event", label: "Event" },
 ];
 
 // Small manually-maintained synonym table so obvious wording differences

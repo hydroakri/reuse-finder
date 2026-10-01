@@ -205,3 +205,20 @@ a {
   height: 1px;
   overflow: hidden;
 }
+
+/* MapLibre's popup card is hardcoded to a white background (it doesn't
+   theme itself to dark mode), but it sets no text color of its own — so in
+   dark mode it was inheriting the page's light --foreground color, putting
+   near-white text on a white card. Pin the text color so it stays readable
+   regardless of the page theme. */
+.maplibregl-popup-content {
+  color: #171717;
+}
+
+.maplibregl-popup-content a {
+  color: #2f6b3a;
+}
+
+.maplibregl-popup-close-button {
+  color: #171717;
+}
