@@ -1525,12 +1525,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Fri 2 Oct, 7:30PM",
-      "fee": "",
+      "fee": "From $39",
       "eligibility": "",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "F1 champion in conversation"
+    "notes": "🏎️ F1 world champion Damon Hill sits down for a live conversation with broadcaster Tom Clarkson — racing stories straight from the paddock."
   },
   {
     "id": "event-auckland-brick-show-2026-auckland-netball-centre",
@@ -1551,7 +1551,7 @@
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "LEGO community event"
+    "notes": "🧱 Auckland's largest LEGO community show, packed with elaborate fan-built creations to wander through."
   },
   {
     "id": "event-free-kids-bike-riding-lessons-2-medallion-drive",
@@ -1567,12 +1567,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Thu 1 Oct, 9-11AM",
-      "fee": "",
-      "eligibility": "",
+      "fee": "Free",
+      "eligibility": "Ages 2–13",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Ages 2-13"
+    "notes": "🚲 A free drop-in session teaching young kids the basics of riding a bike, run by instructors on-site."
   },
   {
     "id": "event-kitchen-chaos-herald-theatre-aotea-centre",
@@ -1593,7 +1593,7 @@
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Family theatre with circus & magic"
+    "notes": "🎪 A circus-meets-slapstick family theatre show set in a chaotic kitchen, mixing magic tricks with physical comedy."
   },
   {
     "id": "event-pops-pinball-te-komititanga",
@@ -1609,12 +1609,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Thu 1-Sat 17 Oct, 7:30-11PM",
-      "fee": "",
+      "fee": "Free",
       "eligibility": "",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Free projected pinball game"
+    "notes": "🕹️ A giant walkable pinball game projected onto the plaza — free to play for anyone passing by each evening."
   },
   {
     "id": "event-windows-of-imagination-te-waihorotiu-station",
@@ -1630,12 +1630,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Thu 1-Sun 25 Oct, 7:30PM-Midnight",
-      "fee": "",
+      "fee": "Free",
       "eligibility": "",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Projection of children's art"
+    "notes": "🎨 Auckland children's artwork projected larger-than-life across the station façade each evening."
   },
   {
     "id": "event-stand-up-comedy-night-cardboard-comedy-club",
@@ -1651,12 +1651,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Thu 1, Fri 2, Sun 4 Oct",
-      "fee": "",
+      "fee": "Free",
       "eligibility": "",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Stand-up comedy in unique cardboard venue (FREE) (approximate — exact address not published, pin is at the suburb centre)"
+    "notes": "🎤 A rotating lineup of professional and up-and-coming stand-up comedians, performing inside a venue built entirely from cardboard."
   },
   {
     "id": "event-repair-caf-te-atat-south-community-centre",
@@ -1672,12 +1672,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Fri 2 Oct, 5-8PM",
-      "fee": "",
+      "fee": "Free",
       "eligibility": "",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Free appliance/clothing/bike repairs (approximate — exact address not published, pin is at the suburb centre)"
+    "notes": "🔧 Volunteers fix small appliances, clothing, bikes, tech and furniture on the spot, free of charge."
   },
   {
     "id": "event-sonu-nigam-live-concert-spark-arena",
@@ -1698,7 +1698,7 @@
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Concert"
+    "notes": "🎵 Bollywood playback singer Sonu Nigam performs live in Auckland."
   },
   {
     "id": "event-samsung-e-waste-collection-day-smales-farm",
@@ -1714,12 +1714,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Sat 3 Oct, 9AM-3PM",
-      "fee": "",
+      "fee": "Free",
       "eligibility": "",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Drive-through e-waste collection"
+    "notes": "♻️ Drive-through e-waste drop-off — staff unload your old electronics for you, no need to get out of the car."
   },
   {
     "id": "event-the-kiwi-game-zone-new-zealand-international-convention-centre",
@@ -1740,7 +1740,7 @@
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "100+ video/tabletop games"
+    "notes": "🎮 A hands-on showcase of 100+ video and tabletop games from New Zealand developers, with demos running all day."
   },
   {
     "id": "event-2026-epsom-moon-festival-epsom-community-centre",
@@ -1761,7 +1761,7 @@
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Cultural performances & markets"
+    "notes": "🏮 A family-friendly Mid-Autumn celebration with cultural performances, craft workshops, food stalls and a community market."
   },
   {
     "id": "event-community-clean-up-pt-chevalier-library",
@@ -1777,12 +1777,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Sat 3 Oct, 10AM-12PM",
-      "fee": "",
+      "fee": "Free (volunteer event)",
       "eligibility": "",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Tools provided"
+    "notes": "🧹 A community litter clean-up around Pt Chevalier — tools supplied, light refreshments afterwards."
   },
   {
     "id": "event-deanz-repair-cafe-orewa-community-centre",
@@ -1798,12 +1798,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Sat 3 Oct, 10AM-1PM",
-      "fee": "",
+      "fee": "Free",
       "eligibility": "",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Free furniture/toy/appliance repairs"
+    "notes": "🔧 Free repairs for small furniture, toys, clothing, appliances and laptops, run by volunteer fixers."
   },
   {
     "id": "event-we-are-aliens-planetarium-show-stardome-observatory-planetarium",
@@ -1824,7 +1824,7 @@
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Planetarium show (approximate — exact address not published, pin is at the suburb centre)"
+    "notes": "🔭 An immersive planetarium show exploring the scientific search for life beyond Earth."
   },
   {
     "id": "event-freida-market-freida-margolis",
@@ -1845,7 +1845,7 @@
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Vintage & handmade goods (approximate — exact address not published, pin is at the suburb centre)"
+    "notes": "🛍️ A local market stocked with vintage finds, handmade goods, jewellery, art and plants."
   },
   {
     "id": "event-walk-talk-beachlands-kellys-walkway-parking",
@@ -1866,7 +1866,7 @@
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Community conversation event (approximate — exact address not published, pin is at the suburb centre)"
+    "notes": "🚶 A relaxed group walk built around open conversation — no set agenda, just company and fresh air."
   },
   {
     "id": "event-a-night-at-the-ballet-st-matthew-in-the-city",
@@ -1887,7 +1887,7 @@
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Orchestral concert charity event"
+    "notes": "🩰 A charity orchestral concert performing classic ballet scores, held across two central-city church venues."
   },
   {
     "id": "event-dnb-allstars-nz-the-trusts-arena",
@@ -1904,11 +1904,11 @@
     "conditions": {
       "hours": "Sat 3 Oct, 4-11PM",
       "fee": "",
-      "eligibility": "",
+      "eligibility": "18+",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "18+ drum & bass show"
+    "notes": "🎧 An 18+ drum & bass lineup headlined by Kanine, Camo & Krooked and Born On Road."
   },
   {
     "id": "event-the-95bfm-kids-show-live-auckland-town-hall",
@@ -1924,12 +1924,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Sun 4 Oct, 9-11AM",
-      "fee": "",
+      "fee": "Free",
       "eligibility": "",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Games, music, radio play (Concert Chamber)"
+    "notes": "📻 A free kids' morning of games, music, storytelling and a live radio play, capped off with a kid-friendly dance party."
   },
   {
     "id": "event-mix-mingle-spring-26-mr-illingsworth",
@@ -1945,12 +1945,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Sun 4 Oct, 2-6PM",
-      "fee": "",
+      "fee": "Free",
       "eligibility": "",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Rainbow social mixer (FREE) (approximate — exact address not published, pin is at the suburb centre)"
+    "notes": "🏳️‍🌈 A free Rainbow community social mixer with a live DJ and a relaxed Sunday-afternoon vibe."
   },
   {
     "id": "event-clay-in-the-park-eastview-reserve",
@@ -1966,12 +1966,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Tue 6 Oct, 10AM-2PM",
-      "fee": "",
+      "fee": "Free",
       "eligibility": "",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Free hands-on family clay activity"
+    "notes": "🏺 Free hands-on clay play for families, using natural materials in an outdoor park setting."
   },
   {
     "id": "event-free-clothing-repairs-workshop-waterview-community-enviro-hub",
@@ -1987,12 +1987,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Tue 6 Oct, 4-6PM",
-      "fee": "",
+      "fee": "Free",
       "eligibility": "",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Clothing repairs workshop"
+    "notes": "🧵 Bring in clothing or fabric that needs mending — repairs done free on the spot."
   },
   {
     "id": "event-king-pin-exhibition-central-city-library",
@@ -2008,12 +2008,12 @@
     "checked_date": "2026-10-01",
     "conditions": {
       "hours": "Wed 7 Oct-Sat 6 Mar",
-      "fee": "",
+      "fee": "Free",
       "eligibility": "",
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "NZ boxing & wrestling memorabilia"
+    "notes": "🥊 A free exhibition tracing New Zealand's boxing and wrestling history through rare memorabilia."
   },
   {
     "id": "event-all-blacks-v-australia-bledisloe-cup-test-eden-park",
@@ -2034,7 +2034,7 @@
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Rugby test match"
+    "notes": "🏉 The All Blacks take on Australia in this year's Bledisloe Cup Test."
   },
   {
     "id": "event-the-wiggles-live-in-concert-spark-arena",
@@ -2055,6 +2055,6 @@
       "membership": "",
       "dropoff_pickup": ""
     },
-    "notes": "Concert"
+    "notes": "🎶 The Wiggles bring their live children's concert to Auckland."
   }
 ]

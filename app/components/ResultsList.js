@@ -33,7 +33,7 @@ export default function ResultsList({ results }) {
   return (
     <ul className="results-list">
       {results.map((result) => (
-        <li key={result.id} className="result-card">
+        <li key={result.id} id={`result-${result.id}`} className="result-card">
           <div className="result-card-header">
             <span className={`category-tag category-${result.category}`}>
               {CATEGORY_LABELS[result.category] ?? result.category}
@@ -46,6 +46,8 @@ export default function ResultsList({ results }) {
           </div>
           <h3>{result.item}</h3>
           <p className="result-suburb">{result.suburb}</p>
+
+          {result.notes && <p className="result-notes">{result.notes}</p>}
 
           <dl className="result-conditions">
             {result.conditions?.hours && (

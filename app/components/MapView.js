@@ -218,6 +218,8 @@ export default function MapView({ results, userLocation, onUnavailable }) {
           >
             Get directions
           </a>
+          <br />
+          <a href={`#result-${selectedResult.id}`}>View full details &darr;</a>
         </Popup>
       )}
     </Map>

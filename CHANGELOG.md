@@ -10,12 +10,16 @@ Iteration Zero, matching the Charter. Not semver.
 - Imported 72 real Auckland borrow/rent/repair locations from a manually-compiled spreadsheet (geocoded via free OpenStreetMap Nominatim, no API key), replacing the 4 placeholder sample records
 - Added a new "event" category: 26 one-off community events pulled from The Auckland Bagel newsletter, rendered with a distinct orange pin so they don't read as permanent reuse options alongside the green service pins
 - "Get directions" link in every map pin's popup — builds a Google Maps directions URL to that pin, using the "Find near me" location as the origin when available, otherwise letting Google Maps ask the device for its current location itself
+- "View full details ↓" link in every map pin's popup — smooth-scrolls down to that listing's full card in the list below
+- Documented the Auckland Bagel data source and copyright attribution in README (event descriptions are original paraphrases, not copied text; `source_url` always points to the event's own official page, not the newsletter)
 
 ### Changed
 - Event records' "View source" link now points to each event's own official page (Ticketmaster, Eventbrite, Auckland Live, Stardome, Eden Park, etc.) instead of the generic Auckland Bagel newsletter URL
+- Rewrote all 26 event descriptions as original, emoji-prefixed one-line summaries (not copied from the newsletter), adding accurate fee/eligibility info only where the source explicitly stated it (e.g. "Free", "18+", "Ages 2–13")
 
 ### Fixed
 - MapLibre's popup text was unreadable in dark mode — the popup card has a hardcoded white background but set no text color of its own, so it inherited the page's light dark-mode foreground color
+- The `notes` field was never rendered anywhere in the UI — affected all 98 records, not just events, and was the real reason listing cards looked sparse
 
 ### Known gaps
 - The 72 imported locations and 26 events are all `status: "unconfirmed"` — desk-researched and geocoded, not in-person verified

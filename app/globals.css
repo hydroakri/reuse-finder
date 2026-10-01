@@ -12,6 +12,7 @@
 
 html {
   height: 100%;
+  scroll-behavior: smooth;
 }
 
 html,
@@ -161,6 +162,12 @@ a {
 .result-suburb {
   color: color-mix(in srgb, var(--foreground) 65%, transparent);
   margin-bottom: 8px;
+}
+
+.result-notes {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 12px;
 }
 
 .result-conditions {
