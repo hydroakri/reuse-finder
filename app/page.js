@@ -19,6 +19,16 @@ export default function Home() {
         </p>
       </header>
       <Explorer services={servicesData} />
+      <footer className="page-footer">
+        <p>
+          Event listings are compiled from{" "}
+          <a href="https://theaucklandbagel.com" target="_blank" rel="noopener noreferrer">
+            The Auckland Bagel
+          </a>
+          , an independent Auckland events newsletter. Descriptions here are
+          our own summaries, not reproduced from their newsletter.
+        </p>
+      </footer>
     </main>
   );
 }

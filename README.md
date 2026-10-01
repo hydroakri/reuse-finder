@@ -78,18 +78,6 @@ approve one: copy its fields into a new entry in `data/services.json`
 `checked_date`, run the validation script, then delete the entry from
 `pending_submissions.json`.
 
-## Event listings: data source and attribution
-
-The 26 `event`-category records were compiled from
-[The Auckland Bagel](https://theaucklandbagel.com/p/this-week-next-week-in-auckland-345a20f9a05aa721),
-a community events newsletter. Each event's description (`notes` field) is
-an original paraphrase of that newsletter's write-up, not a verbatim copy —
-the newsletter's own text is that publication's copyrighted editorial
-content, so it isn't reproduced here. Every event's `source_url` points to
-that specific event's own official page (Ticketmaster, Eventbrite, Auckland
-Live, Stardome, Eden Park, etc.), not back to the newsletter — click "View
-source" on an event to book or get full details from the organiser directly.
-
 ## Development setup
 
 Requires [Nix](https://nixos.org/) with flakes enabled (already the case on
