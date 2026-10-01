@@ -4,6 +4,24 @@ Sectioned by Sprint (the team's Scrum terminology) once Sprint 1 actually
 starts (2026-09-21 per the plan); anything before that date falls under
 Iteration Zero, matching the Charter. Not semver.
 
+## Sprint 1 – Stabilised foundation (2026-10-01)
+
+### Added
+- Imported 72 real Auckland borrow/rent/repair locations from a manually-compiled spreadsheet (geocoded via free OpenStreetMap Nominatim, no API key), replacing the 4 placeholder sample records
+- Added a new "event" category: 26 one-off community events pulled from The Auckland Bagel newsletter, rendered with a distinct orange pin so they don't read as permanent reuse options alongside the green service pins
+- "Get directions" link in every map pin's popup — builds a Google Maps directions URL to that pin, using the "Find near me" location as the origin when available, otherwise letting Google Maps ask the device for its current location itself
+
+### Changed
+- Event records' "View source" link now points to each event's own official page (Ticketmaster, Eventbrite, Auckland Live, Stardome, Eden Park, etc.) instead of the generic Auckland Bagel newsletter URL
+
+### Fixed
+- MapLibre's popup text was unreadable in dark mode — the popup card has a hardcoded white background but set no text color of its own, so it inherited the page's light dark-mode foreground color
+
+### Known gaps
+- The 72 imported locations and 26 events are all `status: "unconfirmed"` — desk-researched and geocoded, not in-person verified
+- 6 of the 26 event pins only have suburb-level accuracy (exact venue address isn't published anywhere) — flagged individually in each record's `notes`
+- Event records' "Source:" label still reads "The Auckland Bagel" even though "View source" now points to the event's own page — open question on whether to update it to match
+
 ## Iteration Zero – Technical Prototype and Baseline (2026-09-16)
 
 ### Added

@@ -58,6 +58,22 @@ function pinColorForCategory(category) {
   return category === "event" ? EVENT_PIN_COLOR : SERVICE_PIN_COLOR;
 }
 
+// Google Maps' documented directions URL: if `origin` is omitted, Google
+// Maps uses the device's current location when the link is opened (asking
+// for location permission itself). We still pass an explicit origin when we
+// already have one from "Find near me" — avoids asking twice and keeps the
+// route anchored to the point the user picked in this app.
+function buildDirectionsUrl(destination, origin) {
+  const params = new URLSearchParams({
+    api: "1",
+    destination: `${destination.lat},${destination.lng}`,
+  });
+  if (origin) {
+    params.set("origin", `${origin.lat},${origin.lng}`);
+  }
+  return `https://www.google.com/maps/dir/?${params.toString()}`;
+}
+
 function MarkerPin({ color }) {
   return (
     <svg width="24" height="32" viewBox="0 0 24 32" style={{ cursor: "pointer", display: "block" }}>
@@ -194,6 +210,14 @@ export default function MapView({ results, userLocation, onUnavailable }) {
           ) : (
             <span>Source link unavailable</span>
           )}
+          <br />
+          <a
+            href={buildDirectionsUrl(selectedResult, userLocation)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Get directions
+          </a>
         </Popup>
       )}
     </Map>
