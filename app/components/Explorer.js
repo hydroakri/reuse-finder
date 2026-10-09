@@ -56,14 +56,55 @@ function matchesKeyword(service, keyword) {
   );
 }
 
+// The dataset itself spells the same real-world area several different ways
+// ("Auckland CBD" / "Auckland Central" / "Auckland City Centre" all show up
+// as literal `suburb` values), and people search using everyday terms the
+// data doesn't necessarily use (e.g. "CBD"). Each group below is a set of
+// interchangeable substrings — confirmed against actual addresses in the
+// dataset, not guessed — so a search against any one of them also matches
+// records labelled with any other member of the same group.
+const SUBURB_ALIAS_GROUPS = [
+  ["auckland cbd", "auckland central", "auckland city centre", "cbd"],
+  ["point chevalier", "pt chevalier"],
+];
+
+function resolveSuburbAliasGroup(normalizedInput) {
+  return (
+    SUBURB_ALIAS_GROUPS.find((group) =>
+      group.some(
+        (alias) => normalizedInput.includes(alias) || alias.includes(normalizedInput)
+      )
+    ) || [normalizedInput]
+  );
+}
+
 function matchesSuburb(service, suburb) {
   if (!suburb) return true;
-  return normalize(service.suburb).includes(normalize(suburb));
+  const normalizedService = normalize(service.suburb);
+  const candidates = resolveSuburbAliasGroup(normalize(suburb));
+  return candidates.some((candidate) => normalizedService.includes(candidate));
 }
 
 function matchesCategory(service, category) {
-  if (category === "all") return true;
+  if (category === "all") {
+    // Events are one-off and have no structured date field in the data, so
+    // a stale one could sit in default browsing indefinitely. Keep them out
+    // of the default view — Event is still fully browsable as its own
+    // explicit filter.
+    return service.category !== "event";
+  }
   return service.category === category;
+}
+
+const CATEGORY_VALUES = CATEGORIES.map((option) => option.value).filter(
+  (value) => value !== "all"
+);
+
+function resolveCategoryFromKeyword(keyword) {
+  const normalizedKeyword = normalize(keyword);
+  if (!normalizedKeyword) return null;
+  const resolved = SYNONYMS[normalizedKeyword] || normalizedKeyword;
+  return CATEGORY_VALUES.includes(resolved) ? resolved : null;
 }
 
 export default function Explorer({ services }) {
@@ -81,6 +122,18 @@ export default function Explorer({ services }) {
         matchesSuburb(service, suburb) &&
         matchesCategory(service, category)
     );
+
+    // Near-me distance is a stronger, more explicit signal than keyword
+    // relevance, so only rank by category match when the user hasn't asked
+    // to sort by distance.
+    const keywordCategory = resolveCategoryFromKeyword(keyword);
+    if (keywordCategory && !userLocation) {
+      list = [...list].sort((a, b) => {
+        const aExact = a.category === keywordCategory ? 0 : 1;
+        const bExact = b.category === keywordCategory ? 0 : 1;
+        return aExact - bExact;
+      });
+    }
 
     if (userLocation) {
       list = list
@@ -127,6 +180,14 @@ export default function Explorer({ services }) {
     setMapAvailable(false);
   }, []);
 
+  const resetFilters = useCallback(() => {
+    setKeyword("");
+    setSuburb("");
+    setCategory("all");
+  }, []);
+
+  const hasActiveFilters = keyword !== "" || suburb !== "" || category !== "all";
+
   return (
     <section>
       <form className="search-form" onSubmit={(e) => e.preventDefault()}>
@@ -161,6 +222,14 @@ export default function Explorer({ services }) {
         <button type="button" onClick={findNearMe} disabled={locateStatus === "locating"}>
           {locateStatus === "locating" ? "Locating..." : "Find near me"}
         </button>
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={resetFilters}
+          disabled={!hasActiveFilters}
+        >
+          Clear filters
+        </button>
       </form>
 
       {locateStatus === "unsupported" && (
@@ -194,7 +263,23 @@ export default function Explorer({ services }) {
         </div>
       )}
 
-      <ResultsList results={filtered} />
+      {filtered.length === 0 ? (
+        <div className="empty-state">
+          <p>
+            No matches for this search. We currently cover repair, borrow,
+            rental and used-purchase options mostly around Auckland CBD,
+            Grafton and nearby suburbs, plus a separate Event category you
+            can browse by selecting it directly — an empty list here doesn&apos;t
+            mean there&apos;s nothing nearby, just nothing matching this exact
+            combination.
+          </p>
+          <button type="button" className="link-button" onClick={resetFilters}>
+            Clear all filters
+          </button>
+        </div>
+      ) : (
+        <ResultsList results={filtered} />
+      )}
     </section>
   );
 }

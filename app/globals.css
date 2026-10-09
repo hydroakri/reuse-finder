@@ -111,6 +111,32 @@ a {
   cursor: not-allowed;
 }
 
+.secondary-button {
+  padding: 9px 16px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--foreground) 25%, transparent);
+  background: transparent;
+  color: var(--foreground);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.secondary-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #2f6b3a;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .status-note {
   font-size: 0.9rem;
   padding: 8px 0;
@@ -161,6 +187,12 @@ a {
 
 .result-suburb {
   color: color-mix(in srgb, var(--foreground) 65%, transparent);
+  margin-bottom: 2px;
+}
+
+.result-address {
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--foreground) 55%, transparent);
   margin-bottom: 8px;
 }
 
@@ -197,6 +229,11 @@ a {
 .empty-state {
   padding: 24px 0;
   color: color-mix(in srgb, var(--foreground) 60%, transparent);
+}
+
+.empty-state p {
+  margin-bottom: 10px;
+  line-height: 1.5;
 }
 
 .submit-form {

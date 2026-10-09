@@ -22,14 +22,6 @@ function safeExternalUrl(url) {
 }
 
 export default function ResultsList({ results }) {
-  if (results.length === 0) {
-    return (
-      <p className="empty-state">
-        No matches. Try a different item, suburb, or category.
-      </p>
-    );
-  }
-
   return (
     <ul className="results-list">
       {results.map((result) => (
@@ -46,6 +38,7 @@ export default function ResultsList({ results }) {
           </div>
           <h3>{result.item}</h3>
           <p className="result-suburb">{result.suburb}</p>
+          {result.address && <p className="result-address">{result.address}</p>}
 
           {result.notes && <p className="result-notes">{result.notes}</p>}
 
