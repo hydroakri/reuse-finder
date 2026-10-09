@@ -4,6 +4,17 @@ Sectioned by Sprint (the team's Scrum terminology) once Sprint 1 actually
 starts (2026-09-21 per the plan); anything before that date falls under
 Iteration Zero, matching the Charter. Not semver.
 
+## Sprint 2 – Weekly event refresh (2026-10-09)
+
+### Changed
+- Replaced all 26 event records with 38 current listings pulled from The Auckland Bagel's latest newsletter issue — the previous batch was a week stale (some listed dates had already passed)
+- Each event's address re-geocoded independently (not copied from the old record it replaced, even for repeat venues like Spark Arena/Aotea Centre, to avoid silently carrying forward a stale pin if a venue's listed address ever changes)
+
+### Known gaps
+- 6 of the 38 events are suburb-level pin accuracy only (exact venue address didn't resolve via geocoding) — flagged individually in each record's `notes`, same pattern as the previous batch
+- 3 events (Show Me Shorts Film Festival, Mental Health Awareness Week, Auckland Startup Week) span multiple venues with no single address — pinned to a nominal Auckland CBD point, flagged in `notes`
+- This refresh was done manually (fetch newsletter → paraphrase → geocode → review), not an automated pipeline — an automated fetch+draft script was discussed but intentionally not built, since auto-publishing scraped content without review conflicts with the project's manually-verified data principle
+
 ## Sprint 1 – Stabilised foundation (2026-10-01)
 
 ### Added
