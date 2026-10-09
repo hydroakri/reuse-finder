@@ -86,13 +86,7 @@ function matchesSuburb(service, suburb) {
 }
 
 function matchesCategory(service, category) {
-  if (category === "all") {
-    // Events are one-off and have no structured date field in the data, so
-    // a stale one could sit in default browsing indefinitely. Keep them out
-    // of the default view — Event is still fully browsable as its own
-    // explicit filter.
-    return service.category !== "event";
-  }
+  if (category === "all") return true;
   return service.category === category;
 }
 
