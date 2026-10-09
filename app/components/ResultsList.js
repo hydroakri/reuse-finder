@@ -1,5 +1,7 @@
 "use client";
 
+import { buildDirectionsUrl } from "../../lib/geo";
+
 const CATEGORY_LABELS = {
   repair: "Repair",
   borrow: "Borrow",
@@ -21,7 +23,7 @@ function safeExternalUrl(url) {
   }
 }
 
-export default function ResultsList({ results, onViewOnMap }) {
+export default function ResultsList({ results, onViewOnMap, userLocation }) {
   return (
     <ul className="results-list">
       {results.map((result) => (
@@ -92,6 +94,14 @@ export default function ResultsList({ results, onViewOnMap }) {
                 View original source &rarr;
               </a>
             )}
+            <a
+              className="result-link"
+              href={buildDirectionsUrl(result, userLocation)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get directions
+            </a>
             {onViewOnMap && (
               <button
                 type="button"

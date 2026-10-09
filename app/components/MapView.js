@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef } from "react";
 import { Map, Marker, Popup, NavigationControl } from "react-map-gl/maplibre";
 import { setWorkerUrl } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { buildDirectionsUrl } from "../../lib/geo";
 
 // MapLibre GL loads its vector-tile decoding code in a Web Worker, resolved
 // via `import.meta.url` relative to its own bundled chunk. Next.js/Turbopack
@@ -56,22 +57,6 @@ const USER_PIN_COLOR = "#1f5fb0";
 
 function pinColorForCategory(category) {
   return category === "event" ? EVENT_PIN_COLOR : SERVICE_PIN_COLOR;
-}
-
-// Google Maps' documented directions URL: if `origin` is omitted, Google
-// Maps uses the device's current location when the link is opened (asking
-// for location permission itself). We still pass an explicit origin when we
-// already have one from "Find near me" — avoids asking twice and keeps the
-// route anchored to the point the user picked in this app.
-function buildDirectionsUrl(destination, origin) {
-  const params = new URLSearchParams({
-    api: "1",
-    destination: `${destination.lat},${destination.lng}`,
-  });
-  if (origin) {
-    params.set("origin", `${origin.lat},${origin.lng}`);
-  }
-  return `https://www.google.com/maps/dir/?${params.toString()}`;
 }
 
 function MarkerPin({ color }) {

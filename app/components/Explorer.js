@@ -447,7 +447,11 @@ export default function Explorer({ services }) {
           </p>
         </div>
       ) : (
-        <ResultsList results={filtered} onViewOnMap={ENABLE_MAP ? viewOnMap : null} />
+        <ResultsList
+          results={filtered}
+          onViewOnMap={ENABLE_MAP ? viewOnMap : null}
+          userLocation={userLocation}
+        />
       )}
     </section>
   );
