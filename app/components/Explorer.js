@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
 import ResultsList from "./ResultsList";
 import { haversineDistanceKm } from "../../lib/geo";
@@ -41,6 +41,54 @@ function normalize(text) {
   return (text || "").toLowerCase().trim();
 }
 
+// Everyday words people search that don't literally appear in any item
+// name, mapped to a word that does (e.g. nobody's item is named
+// "bicycle", but several are named "bike"). Separate from the category
+// SYNONYMS above — these resolve to an item-name word, not a category.
+const ITEM_SYNONYMS = {
+  bicycle: "bike",
+  bicycles: "bike",
+  cycle: "bike",
+  cycling: "bike",
+};
+
+// Small, dependency-free edit-distance check so an obvious typo ("repiar")
+// still matches — deliberately conservative (short words need an exact
+// match) to avoid coincidental matches on unrelated short words.
+function levenshteinDistance(a, b) {
+  const rows = a.length + 1;
+  const cols = b.length + 1;
+  const dp = Array.from({ length: rows }, () => new Array(cols).fill(0));
+  for (let i = 0; i < rows; i++) dp[i][0] = i;
+  for (let j = 0; j < cols; j++) dp[0][j] = j;
+  for (let i = 1; i < rows; i++) {
+    for (let j = 1; j < cols; j++) {
+      dp[i][j] =
+        a[i - 1] === b[j - 1]
+          ? dp[i - 1][j - 1]
+          : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+    }
+  }
+  return dp[rows - 1][cols - 1];
+}
+
+function isCloseTypo(word, target) {
+  if (word === target) return true;
+  if (word.length < 4 || target.length < 4) return false;
+  const threshold = Math.max(word.length, target.length) >= 7 ? 2 : 1;
+  return levenshteinDistance(word, target) <= threshold;
+}
+
+// A query word matches an item if it (or its everyday synonym) appears in
+// the item name verbatim, or is a close typo of one of the item's words.
+function wordMatchesItem(word, haystack, haystackWords) {
+  const resolved = ITEM_SYNONYMS[word] || word;
+  if (haystack.includes(word) || haystack.includes(resolved)) return true;
+  return haystackWords.some(
+    (haystackWord) => isCloseTypo(haystackWord, word) || isCloseTypo(haystackWord, resolved)
+  );
+}
+
 const CATEGORY_VALUES = CATEGORIES.map((option) => option.value).filter(
   (value) => value !== "all"
 );
@@ -62,6 +110,7 @@ function matchesKeyword(service, keyword) {
   const words = normalizedKeyword.split(/\s+/).filter(Boolean);
   const categorySignal = extractCategorySignal(words);
   const haystack = normalize(service.item);
+  const haystackWords = haystack.split(/\s+/);
 
   if (categorySignal) {
     if (service.category !== categorySignal) return false;
@@ -72,32 +121,38 @@ function matchesKeyword(service, keyword) {
     // rent" should not return every toy library).
     const remainingWords = words.filter((word) => (SYNONYMS[word] || word) !== categorySignal);
     if (remainingWords.length === 0) return true;
-    return remainingWords.some((word) => haystack.includes(word));
+    return remainingWords.some((word) => wordMatchesItem(word, haystack, haystackWords));
   }
 
-  return haystack.includes(normalizedKeyword);
+  return words.some((word) => wordMatchesItem(word, haystack, haystackWords));
 }
 
 // The dataset itself spells the same real-world area several different ways
 // ("Auckland CBD" / "Auckland Central" / "Auckland City Centre" all show up
 // as literal `suburb` values), and people search using everyday terms the
-// data doesn't necessarily use (e.g. "CBD"). Each group below is a set of
+// data doesn't necessarily use (e.g. "CBD"). Each group's aliases are
 // interchangeable substrings — confirmed against actual addresses in the
 // dataset, not guessed — so a search against any one of them also matches
-// records labelled with any other member of the same group.
+// records labelled with any other member of the same group. `label` is the
+// one clean option shown in the suburb dropdown for the whole group.
 const SUBURB_ALIAS_GROUPS = [
-  ["auckland cbd", "auckland central", "auckland city centre", "cbd"],
-  ["point chevalier", "pt chevalier"],
+  {
+    label: "Auckland CBD",
+    aliases: ["auckland cbd", "auckland central", "auckland city centre", "cbd"],
+  },
+  { label: "Point Chevalier", aliases: ["point chevalier", "pt chevalier"] },
 ];
 
-function resolveSuburbAliasGroup(normalizedInput) {
-  return (
-    SUBURB_ALIAS_GROUPS.find((group) =>
-      group.some(
-        (alias) => normalizedInput.includes(alias) || alias.includes(normalizedInput)
-      )
-    ) || [normalizedInput]
+function findSuburbAliasGroup(normalizedInput) {
+  return SUBURB_ALIAS_GROUPS.find((group) =>
+    group.aliases.some(
+      (alias) => normalizedInput.includes(alias) || alias.includes(normalizedInput)
+    )
   );
+}
+
+function resolveSuburbAliasGroup(normalizedInput) {
+  return findSuburbAliasGroup(normalizedInput)?.aliases || [normalizedInput];
 }
 
 function matchesSuburb(service, suburb) {
@@ -107,9 +162,34 @@ function matchesSuburb(service, suburb) {
   return candidates.some((candidate) => normalizedService.includes(candidate));
 }
 
+// Builds the suburb dropdown's option list from the data itself (not
+// hand-maintained) — one clean entry per alias group, plus the raw suburb
+// text for anything that isn't part of a group, so the dropdown can't ever
+// offer a suburb spelling the data doesn't actually have.
+function buildSuburbOptions(services) {
+  const labelByKey = new Map();
+  for (const service of services) {
+    const raw = (service.suburb || "").trim();
+    if (!raw) continue;
+    const normalized = normalize(raw);
+    const group = findSuburbAliasGroup(normalized);
+    const key = group ? group.label : normalized;
+    if (!labelByKey.has(key)) labelByKey.set(key, group ? group.label : raw);
+  }
+  return Array.from(labelByKey.values()).sort((a, b) => a.localeCompare(b));
+}
+
 function matchesCategory(service, category) {
   if (category === "all") return true;
   return service.category === category;
+}
+
+function buildGoogleSearchUrl(keyword, suburb) {
+  const query = [keyword, suburb, "Auckland"]
+    .map((part) => (part || "").trim())
+    .filter(Boolean)
+    .join(" ");
+  return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
 }
 
 function resolveCategoryFromKeyword(keyword) {
@@ -125,6 +205,11 @@ export default function Explorer({ services }) {
   const [userLocation, setUserLocation] = useState(null);
   const [locateStatus, setLocateStatus] = useState("idle"); // idle | locating | done | denied | unsupported
   const [mapAvailable, setMapAvailable] = useState(true);
+  const [selectedId, setSelectedId] = useState(null);
+  const [locationPromptVisible, setLocationPromptVisible] = useState(false);
+  const [locationPromptDismissed, setLocationPromptDismissed] = useState(false);
+
+  const suburbOptions = useMemo(() => buildSuburbOptions(services), [services]);
 
   const filtered = useMemo(() => {
     let list = services.filter(
@@ -163,6 +248,21 @@ export default function Explorer({ services }) {
     return list;
   }, [services, keyword, suburb, category, userLocation]);
 
+  // Shown once, on the first time the user actually starts searching —
+  // not an automatic browser permission popup on page load, which tends to
+  // get reflexively dismissed/denied when there's no context for why it's
+  // asking. "Find near me" itself still works at any time without this.
+  const triggerLocationPrompt = useCallback(() => {
+    if (!locationPromptDismissed && locateStatus === "idle") {
+      setLocationPromptVisible(true);
+    }
+  }, [locationPromptDismissed, locateStatus]);
+
+  const dismissLocationPrompt = useCallback(() => {
+    setLocationPromptVisible(false);
+    setLocationPromptDismissed(true);
+  }, []);
+
   const findNearMe = useCallback(() => {
     if (typeof navigator === "undefined" || !("geolocation" in navigator)) {
       setLocateStatus("unsupported");
@@ -187,8 +287,22 @@ export default function Explorer({ services }) {
     );
   }, []);
 
+  // If the user triggers "Find near me" directly, the contextual prompt (if
+  // still showing) is now redundant — drop it rather than leaving it
+  // sitting on screen alongside a location that's already being resolved.
+  useEffect(() => {
+    if (locateStatus !== "idle") {
+      setLocationPromptVisible(false);
+    }
+  }, [locateStatus]);
+
   const handleMapUnavailable = useCallback(() => {
     setMapAvailable(false);
+  }, []);
+
+  const viewOnMap = useCallback((id) => {
+    setSelectedId(id);
+    document.getElementById("map-region")?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, []);
 
   const resetFilters = useCallback(() => {
@@ -201,6 +315,7 @@ export default function Explorer({ services }) {
 
   return (
     <section>
+      <div className="filter-bar">
       <form className="search-form" onSubmit={(e) => e.preventDefault()}>
         <label>
           Item
@@ -208,17 +323,28 @@ export default function Explorer({ services }) {
             type="text"
             placeholder="e.g. bicycle, drill, coat"
             value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
+            onChange={(e) => {
+              setKeyword(e.target.value);
+              triggerLocationPrompt();
+            }}
           />
         </label>
         <label>
           Suburb
-          <input
-            type="text"
-            placeholder="e.g. Ponsonby"
+          <select
             value={suburb}
-            onChange={(e) => setSuburb(e.target.value)}
-          />
+            onChange={(e) => {
+              setSuburb(e.target.value);
+              triggerLocationPrompt();
+            }}
+          >
+            <option value="">All suburbs</option>
+            {suburbOptions.map((label) => (
+              <option key={label} value={label}>
+                {label}
+              </option>
+            ))}
+          </select>
         </label>
         <label>
           Category
@@ -243,6 +369,21 @@ export default function Explorer({ services }) {
         </button>
       </form>
 
+      {locationPromptVisible && (
+        <div className="location-prompt">
+          <span>
+            📍 Find your lifestyle nearby — enable location for the best experience.
+          </span>
+          <button type="button" onClick={() => { dismissLocationPrompt(); findNearMe(); }}>
+            Enable location
+          </button>
+          <button type="button" className="link-button" onClick={dismissLocationPrompt}>
+            No thanks
+          </button>
+        </div>
+      )}
+      </div>
+
       {locateStatus === "unsupported" && (
         <p className="status-note">
           Location isn&apos;t available in this browser/context. Use the suburb search instead.
@@ -259,12 +400,14 @@ export default function Explorer({ services }) {
       )}
 
       {ENABLE_MAP && (
-        <div className="map-region">
+        <div className="map-region" id="map-region">
           {mapAvailable ? (
             <MapView
               results={filtered}
               userLocation={userLocation}
               onUnavailable={handleMapUnavailable}
+              selectedId={selectedId}
+              onSelectResult={setSelectedId}
             />
           ) : (
             <p className="status-note">
@@ -287,9 +430,24 @@ export default function Explorer({ services }) {
           <button type="button" className="link-button" onClick={resetFilters}>
             Clear all filters
           </button>
+          <p className="google-fallback">
+            <a
+              className="secondary-button"
+              href={buildGoogleSearchUrl(keyword, suburb)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Search this on Google &rarr;
+            </a>
+            <br />
+            <span className="status-note">
+              ⚠️ Leaves our site — results beyond this point are not verified by
+              our team and may include commercial listings.
+            </span>
+          </p>
         </div>
       ) : (
-        <ResultsList results={filtered} />
+        <ResultsList results={filtered} onViewOnMap={ENABLE_MAP ? viewOnMap : null} />
       )}
     </section>
   );

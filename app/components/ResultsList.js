@@ -21,7 +21,7 @@ function safeExternalUrl(url) {
   }
 }
 
-export default function ResultsList({ results }) {
+export default function ResultsList({ results, onViewOnMap }) {
   return (
     <ul className="results-list">
       {results.map((result) => (
@@ -81,16 +81,27 @@ export default function ResultsList({ results }) {
             {result.checked_date || "unknown"}
           </p>
 
-          {safeExternalUrl(result.source_url) && (
-            <a
-              className="result-link"
-              href={safeExternalUrl(result.source_url)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View original source &rarr;
-            </a>
-          )}
+          <div className="result-actions">
+            {safeExternalUrl(result.source_url) && (
+              <a
+                className="result-link"
+                href={safeExternalUrl(result.source_url)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View original source &rarr;
+              </a>
+            )}
+            {onViewOnMap && (
+              <button
+                type="button"
+                className="link-button"
+                onClick={() => onViewOnMap(result.id)}
+              >
+                View on map &uarr;
+              </button>
+            )}
+          </div>
         </li>
       ))}
     </ul>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { Map, Marker, Popup, NavigationControl } from "react-map-gl/maplibre";
 import { setWorkerUrl } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -88,10 +88,9 @@ function MarkerPin({ color }) {
   );
 }
 
-export default function MapView({ results, userLocation, onUnavailable }) {
+export default function MapView({ results, userLocation, onUnavailable, selectedId, onSelectResult }) {
   const mapRef = useRef(null);
   const errorTimestampsRef = useRef([]);
-  const [selectedId, setSelectedId] = useState(null);
 
   // Only used for the very first paint — the fitBounds effect below takes
   // over any time the filters/location change after that.
@@ -155,6 +154,17 @@ export default function MapView({ results, userLocation, onUnavailable }) {
     }
   }, [results, userLocation]);
 
+  // Lets a "View on map" button on a result card (outside this component)
+  // jump straight to that pin, not just the viewport-fit effect above which
+  // only reacts to the filtered list or user location changing.
+  useEffect(() => {
+    if (!selectedId) return;
+    const map = mapRef.current?.getMap();
+    const selected = results.find((r) => r.id === selectedId);
+    if (!map || !selected) return;
+    map.easeTo({ center: [selected.lng, selected.lat], zoom: 15, duration: 400 });
+  }, [selectedId, results]);
+
   const selectedResult = results.find((r) => r.id === selectedId) || null;
 
   return (
@@ -175,7 +185,7 @@ export default function MapView({ results, userLocation, onUnavailable }) {
           anchor="bottom"
           onClick={(e) => {
             e.originalEvent.stopPropagation();
-            setSelectedId(result.id);
+            onSelectResult(result.id);
           }}
         >
           <MarkerPin color={pinColorForCategory(result.category)} />
@@ -195,30 +205,35 @@ export default function MapView({ results, userLocation, onUnavailable }) {
           anchor="bottom"
           offset={28}
           closeOnClick={false}
-          onClose={() => setSelectedId(null)}
+          onClose={() => onSelectResult(null)}
         >
           <strong>{selectedResult.item}</strong>
           <br />
           {selectedResult.suburb} &middot; {selectedResult.category}
           <br />
           Source: {selectedResult.source} ({selectedResult.status}, checked {selectedResult.checked_date})
-          <br />
-          {safeExternalUrl(selectedResult.source_url) ? (
-            <a href={safeExternalUrl(selectedResult.source_url)} target="_blank" rel="noopener noreferrer">
-              View source
+          <div className="popup-actions">
+            {safeExternalUrl(selectedResult.source_url) ? (
+              <a
+                className="popup-action-button"
+                href={safeExternalUrl(selectedResult.source_url)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View source
+              </a>
+            ) : (
+              <span>Source link unavailable</span>
+            )}
+            <a
+              className="popup-action-button popup-action-primary"
+              href={buildDirectionsUrl(selectedResult, userLocation)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get directions
             </a>
-          ) : (
-            <span>Source link unavailable</span>
-          )}
-          <br />
-          <a
-            href={buildDirectionsUrl(selectedResult, userLocation)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Get directions
-          </a>
-          <br />
+          </div>
           <a href={`#result-${selectedResult.id}`}>View full details &darr;</a>
         </Popup>
       )}
