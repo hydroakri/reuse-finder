@@ -41,19 +41,41 @@ function normalize(text) {
   return (text || "").toLowerCase().trim();
 }
 
+const CATEGORY_VALUES = CATEGORIES.map((option) => option.value).filter(
+  (value) => value !== "all"
+);
+
+// Finds a word in the search text that names a category (directly, or via
+// SYNONYMS, e.g. "hire" -> "rent"). Used both to filter and to decide
+// relevance ranking, so a word like "rent" always means the same thing.
+function extractCategorySignal(words) {
+  for (const word of words) {
+    const resolved = SYNONYMS[word] || word;
+    if (CATEGORY_VALUES.includes(resolved)) return resolved;
+  }
+  return null;
+}
+
 function matchesKeyword(service, keyword) {
   if (!keyword) return true;
   const normalizedKeyword = normalize(keyword);
-  const resolvedKeyword = SYNONYMS[normalizedKeyword] || normalizedKeyword;
+  const words = normalizedKeyword.split(/\s+/).filter(Boolean);
+  const categorySignal = extractCategorySignal(words);
   const haystack = normalize(service.item);
-  return (
-    haystack.includes(normalizedKeyword) ||
-    haystack.includes(resolvedKeyword) ||
-    // A synonym like "hire" resolves to the category "rent" — that should
-    // surface every rent listing, not just ones whose item text happens to
-    // contain the word "rent".
-    service.category === resolvedKeyword
-  );
+
+  if (categorySignal) {
+    if (service.category !== categorySignal) return false;
+    // A bare category word ("rent") still browses the whole category — but
+    // if other words are present too ("bike rent"), they must actually
+    // match the item, so a category word alone can't drag in every
+    // unrelated record just because it shares that category (e.g. "bike
+    // rent" should not return every toy library).
+    const remainingWords = words.filter((word) => (SYNONYMS[word] || word) !== categorySignal);
+    if (remainingWords.length === 0) return true;
+    return remainingWords.some((word) => haystack.includes(word));
+  }
+
+  return haystack.includes(normalizedKeyword);
 }
 
 // The dataset itself spells the same real-world area several different ways
@@ -90,15 +112,10 @@ function matchesCategory(service, category) {
   return service.category === category;
 }
 
-const CATEGORY_VALUES = CATEGORIES.map((option) => option.value).filter(
-  (value) => value !== "all"
-);
-
 function resolveCategoryFromKeyword(keyword) {
   const normalizedKeyword = normalize(keyword);
   if (!normalizedKeyword) return null;
-  const resolved = SYNONYMS[normalizedKeyword] || normalizedKeyword;
-  return CATEGORY_VALUES.includes(resolved) ? resolved : null;
+  return extractCategorySignal(normalizedKeyword.split(/\s+/).filter(Boolean));
 }
 
 export default function Explorer({ services }) {
