@@ -218,6 +218,33 @@ a {
   background: color-mix(in srgb, var(--foreground) 10%, transparent);
 }
 
+/* One colour per category, reused consistently across tags, map pins and
+   popups so "what kind of thing is this" reads at a glance everywhere. */
+.category-repair {
+  background: color-mix(in srgb, #1f5fb0 18%, transparent);
+  color: #1f5fb0;
+}
+
+.category-borrow {
+  background: color-mix(in srgb, #2f6b3a 18%, transparent);
+  color: #2f6b3a;
+}
+
+.category-rent {
+  background: color-mix(in srgb, #7c3aed 18%, transparent);
+  color: #7c3aed;
+}
+
+.category-used {
+  background: color-mix(in srgb, #b45309 18%, transparent);
+  color: #b45309;
+}
+
+.category-event {
+  background: color-mix(in srgb, #d9822b 18%, transparent);
+  color: #d9822b;
+}
+
 .distance-tag {
   font-size: 0.8rem;
   color: color-mix(in srgb, var(--foreground) 60%, transparent);

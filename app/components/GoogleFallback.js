@@ -9,12 +9,17 @@ import { useEffect, useState } from "react";
 // of sending the user away to a separate Google tab. Card markup/classes
 // deliberately match ResultsList's own cards so a Google result reads as
 // "the same kind of thing, different source" rather than a different UI.
-export default function GoogleFallback({ query, userLocation }) {
+//
+// onResultsChange lets Explorer mirror these onto the map (as a distinct
+// pin colour) — called with [] whenever there's nothing to show, so the map
+// clears itself the moment this component has no results of its own.
+export default function GoogleFallback({ query, userLocation, onResultsChange }) {
   const [state, setState] = useState({ status: "idle" });
 
   useEffect(() => {
     if (!query) {
       setState({ status: "idle" });
+      onResultsChange?.([]);
       return undefined;
     }
 
@@ -33,19 +38,26 @@ export default function GoogleFallback({ query, userLocation }) {
         if (cancelled) return;
         if (!data.available) {
           setState({ status: "unavailable" });
+          onResultsChange?.([]);
         } else if (data.error) {
           setState({ status: "error" });
+          onResultsChange?.([]);
         } else {
           setState({ status: "done", results: data.results });
+          onResultsChange?.(data.results.filter((r) => typeof r.lat === "number" && typeof r.lng === "number"));
         }
       })
       .catch(() => {
-        if (!cancelled) setState({ status: "error" });
+        if (!cancelled) {
+          setState({ status: "error" });
+          onResultsChange?.([]);
+        }
       });
 
     return () => {
       cancelled = true;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, userLocation]);
 
   if (state.status === "idle" || state.status === "unavailable") return null;
@@ -66,7 +78,7 @@ export default function GoogleFallback({ query, userLocation }) {
       {state.status === "done" && state.results.length > 0 && (
         <ul className="results-list">
           {state.results.map((result) => (
-            <li key={result.url} className="result-card">
+            <li key={result.mapsUrl} className="result-card">
               <div className="result-card-header">
                 <span className="category-tag category-google">From Google</span>
                 {typeof result.distanceKm === "number" && (
@@ -76,6 +88,15 @@ export default function GoogleFallback({ query, userLocation }) {
               <h3>{result.name}</h3>
               {result.address && <p className="result-address">{result.address}</p>}
               <dl className="result-conditions">
+                {result.rating && (
+                  <>
+                    <dt>Rating</dt>
+                    <dd>
+                      ★ {result.rating}
+                      {result.ratingCount ? ` (${result.ratingCount})` : ""}
+                    </dd>
+                  </>
+                )}
                 {result.price && (
                   <>
                     <dt>Price</dt>
@@ -85,13 +106,32 @@ export default function GoogleFallback({ query, userLocation }) {
                 {typeof result.openNow === "boolean" && (
                   <>
                     <dt>Status</dt>
-                    <dd>{result.openNow ? "Open now" : "Closed now"}</dd>
+                    <dd>
+                      {result.temporarilyClosed
+                        ? "Temporarily closed"
+                        : result.openNow
+                          ? "Open now"
+                          : "Closed now"}
+                    </dd>
+                  </>
+                )}
+                {result.phone && (
+                  <>
+                    <dt>Phone</dt>
+                    <dd>{result.phone}</dd>
                   </>
                 )}
               </dl>
-              <a className="result-link" href={result.url} target="_blank" rel="noopener noreferrer">
-                View on Google &rarr;
-              </a>
+              <div className="result-actions">
+                <a className="result-link" href={result.mapsUrl} target="_blank" rel="noopener noreferrer">
+                  View on Google Maps &rarr;
+                </a>
+                {result.websiteUrl && (
+                  <a className="result-link" href={result.websiteUrl} target="_blank" rel="noopener noreferrer">
+                    Visit website &rarr;
+                  </a>
+                )}
+              </div>
             </li>
           ))}
         </ul>

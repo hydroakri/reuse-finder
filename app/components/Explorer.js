@@ -208,6 +208,7 @@ export default function Explorer({ services }) {
   const [selectedId, setSelectedId] = useState(null);
   const [locationPromptVisible, setLocationPromptVisible] = useState(false);
   const [locationPromptDismissed, setLocationPromptDismissed] = useState(false);
+  const [googleResults, setGoogleResults] = useState([]);
 
   const suburbOptions = useMemo(() => buildSuburbOptions(services), [services]);
 
@@ -404,6 +405,7 @@ export default function Explorer({ services }) {
           {mapAvailable ? (
             <MapView
               results={filtered}
+              googleResults={googleResults}
               userLocation={userLocation}
               onUnavailable={handleMapUnavailable}
               selectedId={selectedId}
@@ -429,6 +431,7 @@ export default function Explorer({ services }) {
           <GoogleFallback
             query={buildFallbackQuery(keyword, suburb)}
             userLocation={userLocation}
+            onResultsChange={setGoogleResults}
           />
         </div>
       ) : (

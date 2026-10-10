@@ -57,8 +57,19 @@ async function fetchPlaces(textQuery, apiKey) {
     headers: {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": apiKey,
-      "X-Goog-FieldMask":
-        "places.displayName,places.formattedAddress,places.websiteUri,places.id,places.location,places.priceLevel,places.currentOpeningHours.openNow",
+      "X-Goog-FieldMask": [
+        "places.displayName",
+        "places.formattedAddress",
+        "places.websiteUri",
+        "places.id",
+        "places.location",
+        "places.priceLevel",
+        "places.currentOpeningHours.openNow",
+        "places.businessStatus",
+        "places.rating",
+        "places.userRatingCount",
+        "places.nationalPhoneNumber",
+      ].join(","),
     },
     body: JSON.stringify({ textQuery, regionCode: "NZ" }),
   });
@@ -103,26 +114,42 @@ export async function GET(request) {
     setCache(cacheKey, places);
   }
 
-  const results = places.slice(0, MAX_RESULTS).map((place) => {
-    const lat = place.location?.latitude;
-    const lng = place.location?.longitude;
-    const distanceKm =
-      hasUserLocation && typeof lat === "number" && typeof lng === "number"
-        ? haversineDistanceKm(userLat, userLng, lat, lng)
-        : null;
+  const results = places
+    // A permanently-closed business showing up as a "live result" would be
+    // actively wrong, not just incomplete — worse than having no fee data.
+    // Temporarily-closed ones still have a real address worth showing.
+    .filter((place) => place.businessStatus !== "CLOSED_PERMANENTLY")
+    .slice(0, MAX_RESULTS)
+    .map((place) => {
+      const lat = place.location?.latitude ?? null;
+      const lng = place.location?.longitude ?? null;
+      const distanceKm =
+        hasUserLocation && typeof lat === "number" && typeof lng === "number"
+          ? haversineDistanceKm(userLat, userLng, lat, lng)
+          : null;
 
-    return {
-      name: place.displayName?.text || "Unnamed place",
-      address: place.formattedAddress || "",
-      url: place.websiteUri || `https://www.google.com/maps/place/?q=place_id:${place.id}`,
-      price: PRICE_LEVEL_LABELS[place.priceLevel] || null,
-      openNow:
-        typeof place.currentOpeningHours?.openNow === "boolean"
-          ? place.currentOpeningHours.openNow
-          : null,
-      distanceKm,
-    };
-  });
+      return {
+        name: place.displayName?.text || "Unnamed place",
+        address: place.formattedAddress || "",
+        lat,
+        lng,
+        // Two distinct links, same pattern as our own cards' "View
+        // original source": the Google Maps listing always exists, the
+        // business's own site only sometimes does.
+        mapsUrl: `https://www.google.com/maps/place/?q=place_id:${place.id}`,
+        websiteUrl: place.websiteUri || null,
+        phone: place.nationalPhoneNumber || null,
+        rating: typeof place.rating === "number" ? place.rating : null,
+        ratingCount: typeof place.userRatingCount === "number" ? place.userRatingCount : null,
+        price: PRICE_LEVEL_LABELS[place.priceLevel] || null,
+        openNow:
+          typeof place.currentOpeningHours?.openNow === "boolean"
+            ? place.currentOpeningHours.openNow
+            : null,
+        temporarilyClosed: place.businessStatus === "CLOSED_TEMPORARILY",
+        distanceKm,
+      };
+    });
 
   return Response.json({ available: true, results });
 }
