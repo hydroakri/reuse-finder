@@ -420,17 +420,16 @@ export default function Explorer({ services }) {
       {filtered.length === 0 ? (
         <div className="empty-state">
           <p>
-            No matches for this search. We currently cover repair, borrow,
-            rental and used-purchase options mostly around Auckland CBD,
-            Grafton and nearby suburbs, plus a separate Event category you
-            can browse by selecting it directly — an empty list here doesn&apos;t
-            mean there&apos;s nothing nearby, just nothing matching this exact
-            combination.
+            No matches for this combination — not necessarily nothing
+            nearby. Try adjusting your search, or clear filters below.
           </p>
           <button type="button" className="link-button" onClick={resetFilters}>
             Clear all filters
           </button>
-          <GoogleFallback query={buildFallbackQuery(keyword, suburb)} />
+          <GoogleFallback
+            query={buildFallbackQuery(keyword, suburb)}
+            userLocation={userLocation}
+          />
         </div>
       ) : (
         <ResultsList

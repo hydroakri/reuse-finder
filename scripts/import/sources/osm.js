@@ -86,7 +86,13 @@ async function fetchCandidates() {
         lng,
         source: "OpenStreetMap contributors",
         source_url: `https://www.openstreetmap.org/${element.type}/${element.id}`,
-        conditions: {},
+        // OSM's opening_hours tag is a real (if terse) structured value
+        // when present — worth carrying over as a starting point, still
+        // needs a human to confirm it's current. No price tag is pulled in
+        // here: OSM rarely tags fees for these shop/craft/amenity types, so
+        // leaving conditions.fee blank (flagged in missing_fields) is more
+        // honest than guessing.
+        conditions: tags.opening_hours ? { hours: tags.opening_hours } : {},
         notes: `Imported from OpenStreetMap tags (${Object.entries(tags)
           .filter(([k]) => k.startsWith("shop") || k.startsWith("craft") || k === "amenity")
           .map(([k, v]) => `${k}=${v}`)

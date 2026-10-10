@@ -308,6 +308,37 @@ a {
   font-weight: 600;
 }
 
+.google-fallback-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.google-fallback-meta {
+  display: block;
+  font-size: 0.8rem;
+  color: color-mix(in srgb, var(--foreground) 60%, transparent);
+}
+
+.badge-open,
+.badge-closed {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 999px;
+}
+
+.badge-open {
+  background: color-mix(in srgb, #2f6b3a 18%, transparent);
+  color: #2f6b3a;
+}
+
+.badge-closed {
+  background: color-mix(in srgb, #b3261e 15%, transparent);
+  color: #b3261e;
+}
+
 .submit-form {
   display: grid;
   gap: 14px;

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 // resort" holds regardless of how often this fires, since it can't fire any
 // other way. Results render inline, clearly labelled as unverified, instead
 // of sending the user away to a separate Google tab.
-export default function GoogleFallback({ query }) {
+export default function GoogleFallback({ query, userLocation }) {
   const [state, setState] = useState({ status: "idle" });
 
   useEffect(() => {
@@ -19,7 +19,13 @@ export default function GoogleFallback({ query }) {
     let cancelled = false;
     setState({ status: "loading" });
 
-    fetch(`/api/google-fallback?q=${encodeURIComponent(query)}`)
+    const params = new URLSearchParams({ q: query });
+    if (userLocation) {
+      params.set("lat", userLocation.lat);
+      params.set("lng", userLocation.lng);
+    }
+
+    fetch(`/api/google-fallback?${params.toString()}`)
       .then((res) => res.json())
       .then((data) => {
         if (cancelled) return;
@@ -38,7 +44,7 @@ export default function GoogleFallback({ query }) {
     return () => {
       cancelled = true;
     };
-  }, [query]);
+  }, [query, userLocation]);
 
   if (state.status === "idle" || state.status === "unavailable") return null;
 
@@ -59,10 +65,23 @@ export default function GoogleFallback({ query }) {
         <ul className="google-fallback-list">
           {state.results.map((result) => (
             <li key={result.url}>
-              <a href={result.url} target="_blank" rel="noopener noreferrer">
-                {result.name}
-              </a>
-              {result.address && <span className="result-address"> — {result.address}</span>}
+              <div className="google-fallback-header">
+                <a href={result.url} target="_blank" rel="noopener noreferrer">
+                  {result.name}
+                </a>
+                {typeof result.openNow === "boolean" && (
+                  <span className={result.openNow ? "badge-open" : "badge-closed"}>
+                    {result.openNow ? "Open now" : "Closed now"}
+                  </span>
+                )}
+              </div>
+              <span className="google-fallback-meta">
+                {result.address}
+                {result.price && <> &middot; {result.price}</>}
+                {typeof result.distanceKm === "number" && (
+                  <> &middot; {result.distanceKm.toFixed(1)} km away</>
+                )}
+              </span>
             </li>
           ))}
         </ul>

@@ -194,8 +194,23 @@ export default function MapView({ results, userLocation, onUnavailable, selected
         >
           <strong>{selectedResult.item}</strong>
           <br />
-          {selectedResult.suburb} &middot; {selectedResult.category}
+          {selectedResult.address || selectedResult.suburb}
+          {typeof selectedResult.distanceKm === "number" && (
+            <> &middot; {selectedResult.distanceKm.toFixed(1)} km away</>
+          )}
           <br />
+          {selectedResult.conditions?.hours && (
+            <>
+              🕒 {selectedResult.conditions.hours}
+              <br />
+            </>
+          )}
+          {selectedResult.conditions?.fee && (
+            <>
+              💲 {selectedResult.conditions.fee}
+              <br />
+            </>
+          )}
           Source: {selectedResult.source} ({selectedResult.status}, checked {selectedResult.checked_date})
           <div className="popup-actions">
             {safeExternalUrl(selectedResult.source_url) ? (
