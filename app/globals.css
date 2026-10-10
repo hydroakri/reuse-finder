@@ -288,8 +288,24 @@ a {
 }
 
 .google-fallback .status-note {
-  display: inline-block;
-  padding-top: 8px;
+  display: block;
+  padding-top: 0;
+  padding-bottom: 8px;
+}
+
+.google-fallback-list {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.google-fallback-list li {
+  font-size: 0.9rem;
+}
+
+.google-fallback-list a {
+  color: #2f6b3a;
+  font-weight: 600;
 }
 
 .submit-form {

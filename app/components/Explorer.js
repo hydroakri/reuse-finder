@@ -3,6 +3,7 @@
 import { useMemo, useState, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
 import ResultsList from "./ResultsList";
+import GoogleFallback from "./GoogleFallback";
 import { haversineDistanceKm } from "../../lib/geo";
 
 // M3 kill switch: flip to false to hide the map entirely (list/search still
@@ -184,12 +185,11 @@ function matchesCategory(service, category) {
   return service.category === category;
 }
 
-function buildGoogleSearchUrl(keyword, suburb) {
-  const query = [keyword, suburb, "Auckland"]
+function buildFallbackQuery(keyword, suburb) {
+  return [keyword, suburb]
     .map((part) => (part || "").trim())
     .filter(Boolean)
     .join(" ");
-  return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
 }
 
 function resolveCategoryFromKeyword(keyword) {
@@ -430,21 +430,7 @@ export default function Explorer({ services }) {
           <button type="button" className="link-button" onClick={resetFilters}>
             Clear all filters
           </button>
-          <p className="google-fallback">
-            <a
-              className="secondary-button"
-              href={buildGoogleSearchUrl(keyword, suburb)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Search this on Google &rarr;
-            </a>
-            <br />
-            <span className="status-note">
-              ⚠️ Leaves our site — results beyond this point are not verified by
-              our team and may include commercial listings.
-            </span>
-          </p>
+          <GoogleFallback query={buildFallbackQuery(keyword, suburb)} />
         </div>
       ) : (
         <ResultsList
