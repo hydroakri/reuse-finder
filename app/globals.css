@@ -293,50 +293,12 @@ a {
   padding-bottom: 8px;
 }
 
-.google-fallback-list {
-  list-style: none;
-  display: grid;
-  gap: 8px;
-}
-
-.google-fallback-list li {
-  font-size: 0.9rem;
-}
-
-.google-fallback-list a {
-  color: #2f6b3a;
-  font-weight: 600;
-}
-
-.google-fallback-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.google-fallback-meta {
-  display: block;
-  font-size: 0.8rem;
-  color: color-mix(in srgb, var(--foreground) 60%, transparent);
-}
-
-.badge-open,
-.badge-closed {
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 1px 7px;
-  border-radius: 999px;
-}
-
-.badge-open {
-  background: color-mix(in srgb, #2f6b3a 18%, transparent);
-  color: #2f6b3a;
-}
-
-.badge-closed {
-  background: color-mix(in srgb, #b3261e 15%, transparent);
-  color: #b3261e;
+/* Google fallback results reuse the .result-card/.results-list markup from
+   ResultsList.js (same visual language as our own data), just with this one
+   tag colour to keep "from Google, not us" visible at a glance. */
+.category-google {
+  background: color-mix(in srgb, #4285f4 18%, transparent);
+  color: #1a56c4;
 }
 
 .submit-form {

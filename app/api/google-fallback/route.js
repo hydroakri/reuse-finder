@@ -20,6 +20,57 @@ const PRICE_LEVEL_LABELS = {
   PRICE_LEVEL_VERY_EXPENSIVE: "$$$$",
 };
 
+// In-memory cache of raw Places results, keyed by search text — distance
+// depends on the individual user's location, so that's computed fresh per
+// request from the cached place coordinates, never cached itself. This is a
+// plain module-level Map, not a separate cache service: `next start` is a
+// single long-running Node process (confirmed — this app isn't deployed as
+// serverless), so the cache genuinely persists across requests without
+// needing Redis or similar for a course-project's traffic. Resets on every
+// server restart, which is fine — Google's own data changes too, a cold
+// cache isn't a correctness problem.
+const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+const CACHE_MAX_ENTRIES = 200; // safety cap so a long-lived dev server can't grow unbounded
+const cache = new Map(); // normalized query -> { timestamp, places }
+
+function getCached(key) {
+  const entry = cache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.timestamp > CACHE_TTL_MS) {
+    cache.delete(key);
+    return null;
+  }
+  return entry.places;
+}
+
+function setCache(key, places) {
+  if (cache.size >= CACHE_MAX_ENTRIES) {
+    // Oldest-inserted key — Map preserves insertion order.
+    cache.delete(cache.keys().next().value);
+  }
+  cache.set(key, { timestamp: Date.now(), places });
+}
+
+async function fetchPlaces(textQuery, apiKey) {
+  const response = await fetch(TEXT_SEARCH_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Goog-Api-Key": apiKey,
+      "X-Goog-FieldMask":
+        "places.displayName,places.formattedAddress,places.websiteUri,places.id,places.location,places.priceLevel,places.currentOpeningHours.openNow",
+    },
+    body: JSON.stringify({ textQuery, regionCode: "NZ" }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Google Places returned ${response.status}.`);
+  }
+
+  const { places = [] } = await response.json();
+  return places;
+}
+
 export async function GET(request) {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY;
   if (!apiKey) {
@@ -40,28 +91,17 @@ export async function GET(request) {
   const hasUserLocation = Number.isFinite(userLat) && Number.isFinite(userLng);
 
   const textQuery = `${query} Auckland`;
+  const cacheKey = textQuery.toLowerCase();
 
-  let response;
-  try {
-    response = await fetch(TEXT_SEARCH_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Goog-Api-Key": apiKey,
-        "X-Goog-FieldMask":
-          "places.displayName,places.formattedAddress,places.websiteUri,places.id,places.location,places.priceLevel,places.currentOpeningHours.openNow",
-      },
-      body: JSON.stringify({ textQuery, regionCode: "NZ" }),
-    });
-  } catch {
-    return Response.json({ available: true, results: [], error: "Google Places request failed." });
+  let places = getCached(cacheKey);
+  if (!places) {
+    try {
+      places = await fetchPlaces(textQuery, apiKey);
+    } catch (err) {
+      return Response.json({ available: true, results: [], error: err.message });
+    }
+    setCache(cacheKey, places);
   }
-
-  if (!response.ok) {
-    return Response.json({ available: true, results: [], error: `Google Places returned ${response.status}.` });
-  }
-
-  const { places = [] } = await response.json();
 
   const results = places.slice(0, MAX_RESULTS).map((place) => {
     const lat = place.location?.latitude;

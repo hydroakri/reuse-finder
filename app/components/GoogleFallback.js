@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 // own data has zero matches) — "our data first, Google only as a last
 // resort" holds regardless of how often this fires, since it can't fire any
 // other way. Results render inline, clearly labelled as unverified, instead
-// of sending the user away to a separate Google tab.
+// of sending the user away to a separate Google tab. Card markup/classes
+// deliberately match ResultsList's own cards so a Google result reads as
+// "the same kind of thing, different source" rather than a different UI.
 export default function GoogleFallback({ query, userLocation }) {
   const [state, setState] = useState({ status: "idle" });
 
@@ -62,26 +64,34 @@ export default function GoogleFallback({ query, userLocation }) {
         <p className="status-note">No results from Google either.</p>
       )}
       {state.status === "done" && state.results.length > 0 && (
-        <ul className="google-fallback-list">
+        <ul className="results-list">
           {state.results.map((result) => (
-            <li key={result.url}>
-              <div className="google-fallback-header">
-                <a href={result.url} target="_blank" rel="noopener noreferrer">
-                  {result.name}
-                </a>
-                {typeof result.openNow === "boolean" && (
-                  <span className={result.openNow ? "badge-open" : "badge-closed"}>
-                    {result.openNow ? "Open now" : "Closed now"}
-                  </span>
+            <li key={result.url} className="result-card">
+              <div className="result-card-header">
+                <span className="category-tag category-google">From Google</span>
+                {typeof result.distanceKm === "number" && (
+                  <span className="distance-tag">{result.distanceKm.toFixed(1)} km away</span>
                 )}
               </div>
-              <span className="google-fallback-meta">
-                {result.address}
-                {result.price && <> &middot; {result.price}</>}
-                {typeof result.distanceKm === "number" && (
-                  <> &middot; {result.distanceKm.toFixed(1)} km away</>
+              <h3>{result.name}</h3>
+              {result.address && <p className="result-address">{result.address}</p>}
+              <dl className="result-conditions">
+                {result.price && (
+                  <>
+                    <dt>Price</dt>
+                    <dd>{result.price}</dd>
+                  </>
                 )}
-              </span>
+                {typeof result.openNow === "boolean" && (
+                  <>
+                    <dt>Status</dt>
+                    <dd>{result.openNow ? "Open now" : "Closed now"}</dd>
+                  </>
+                )}
+              </dl>
+              <a className="result-link" href={result.url} target="_blank" rel="noopener noreferrer">
+                View on Google &rarr;
+              </a>
             </li>
           ))}
         </ul>
