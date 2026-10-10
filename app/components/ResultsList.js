@@ -1,5 +1,7 @@
 "use client";
 
+import { buildDirectionsUrl } from "../../lib/geo";
+
 const CATEGORY_LABELS = {
   repair: "Repair",
   borrow: "Borrow",
@@ -21,15 +23,7 @@ function safeExternalUrl(url) {
   }
 }
 
-export default function ResultsList({ results }) {
-  if (results.length === 0) {
-    return (
-      <p className="empty-state">
-        No matches. Try a different item, suburb, or category.
-      </p>
-    );
-  }
-
+export default function ResultsList({ results, onViewOnMap, userLocation }) {
   return (
     <ul className="results-list">
       {results.map((result) => (
@@ -46,6 +40,7 @@ export default function ResultsList({ results }) {
           </div>
           <h3>{result.item}</h3>
           <p className="result-suburb">{result.suburb}</p>
+          {result.address && <p className="result-address">{result.address}</p>}
 
           {result.notes && <p className="result-notes">{result.notes}</p>}
 
@@ -88,16 +83,35 @@ export default function ResultsList({ results }) {
             {result.checked_date || "unknown"}
           </p>
 
-          {safeExternalUrl(result.source_url) && (
+          <div className="result-actions">
+            {safeExternalUrl(result.source_url) && (
+              <a
+                className="result-link"
+                href={safeExternalUrl(result.source_url)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View original source &rarr;
+              </a>
+            )}
             <a
               className="result-link"
-              href={safeExternalUrl(result.source_url)}
+              href={buildDirectionsUrl(result, userLocation)}
               target="_blank"
               rel="noopener noreferrer"
             >
-              View original source &rarr;
+              Get directions
             </a>
-          )}
+            {onViewOnMap && (
+              <button
+                type="button"
+                className="link-button"
+                onClick={() => onViewOnMap(result.id)}
+              >
+                View on map &uarr;
+              </button>
+            )}
+          </div>
         </li>
       ))}
     </ul>

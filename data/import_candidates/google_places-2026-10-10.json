@@ -1,0 +1,1598 @@
+[
+  {
+    "id": "google_places-point-bike-services-auckland",
+    "item": "Point Bike Services",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "151 Queen Street, Northcote Point, Auckland 0627",
+    "lat": -36.8151708,
+    "lng": 174.7456504,
+    "source": "Google Places",
+    "source_url": "http://www.pointbikeservices.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-ec-cycles-auckland",
+    "item": "EC Cycles",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "139 Sunnybrae Road, Hillcrest, Auckland 0627",
+    "lat": -36.7844703,
+    "lng": 174.7394636,
+    "source": "Google Places",
+    "source_url": "http://www.eccycles.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-ride-happy-repairs-auckland",
+    "item": "Ride happy repairs",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "102 Sandringham Road, Mount Eden, Auckland 1025",
+    "lat": -36.876477,
+    "lng": 174.7414327,
+    "source": "Google Places",
+    "source_url": "https://www.ridehappyrepair.com/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-bike-repair-auckland",
+    "item": "Bike repair",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "North Shore, Northcote, Auckland 0627",
+    "lat": -36.8088313,
+    "lng": 174.7517263,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJX5U-fwA5DW0RkpWXT7VDFnc",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-bike-hub-grey-lynn-auckland",
+    "item": "Bike Hub Grey Lynn",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "Dryden Street Next to the pump track Grey Lynn Park, Grey Lynn, Auckland 1021",
+    "lat": -36.8583596,
+    "lng": 174.7375968,
+    "source": "Google Places",
+    "source_url": "https://www.ecomatters.org.nz/on-bikes/bike-hubs/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-99-bikes-takapuna-auckland",
+    "item": "99 Bikes Takapuna",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "57 Barrys Point Road, Takapuna, Auckland 0622",
+    "lat": -36.7933465,
+    "lng": 174.7648036,
+    "source": "Google Places",
+    "source_url": "https://www.99bikes.co.nz/pages/takapuna-bike-store",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-the-bicycle-whisperer-auckland",
+    "item": "The Bicycle Whisperer",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "70 Beach Road, Castor Bay, Auckland 0620",
+    "lat": -36.759339,
+    "lng": 174.7666759,
+    "source": "Google Places",
+    "source_url": "https://m.facebook.com/TheBicycleWhispererNZ/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-bike-hub-queens-wharf-auckland",
+    "item": "Bike Hub Queens Wharf",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "89 Quay Street, Auckland CBD, Auckland 1010",
+    "lat": -36.8428876,
+    "lng": 174.7677822,
+    "source": "Google Places",
+    "source_url": "https://www.ecomatters.org.nz/on-bikes/bike-hubs/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-bicycles-north-shore-auckland",
+    "item": "BICYCLES North Shore",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "20A Francis Street, Hauraki, Auckland 0622",
+    "lat": -36.799126199999996,
+    "lng": 174.77172489999998,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJ7WUmk585DW0RTigkrvt00O0",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-ab-bikes-auckland",
+    "item": "AB Bikes",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "Auckland, Hillcrest, Porana Rd, NZ邮政编码: 0627",
+    "lat": -36.782775699999995,
+    "lng": 174.73880269999998,
+    "source": "Google Places",
+    "source_url": "https://abbikes.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-bicycle-superstore-takapuna-auckland",
+    "item": "Bicycle Superstore Takapuna",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "72 Barrys Point Road, Takapuna, Auckland 0622",
+    "lat": -36.795792899999995,
+    "lng": 174.7659182,
+    "source": "Google Places",
+    "source_url": "https://bicyclesuperstore.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-evo-cycles-takapuna-auckland",
+    "item": "Evo Cycles Takapuna",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "51 Barrys Point Road, Takapuna, Auckland 0622",
+    "lat": -36.7927298,
+    "lng": 174.76482149999998,
+    "source": "Google Places",
+    "source_url": "https://www.evocycles.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-josca-bicycle-repairs-auckland",
+    "item": "Josca Bicycle Repairs",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "3/8a Allendale Road, Mount Albert, Auckland 1025",
+    "lat": -36.8850189,
+    "lng": 174.7189041,
+    "source": "Google Places",
+    "source_url": "http://www.joscatcraft.com/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-bennys-bike-shop-auckland",
+    "item": "Bennys Bike Shop",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "78 Upper Queen Street, Eden Terrace, Auckland 1010",
+    "lat": -36.8624654,
+    "lng": 174.7591742,
+    "source": "Google Places",
+    "source_url": "https://www.bennysbikeshop.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-bespoke-cycles-mobile-bike-service-and-repair-auckland",
+    "item": "Bespoke Cycles Mobile Bike Service and Repair",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "89 Deep Creek Road, Waiake, Auckland 0630",
+    "lat": -36.7025199,
+    "lng": 174.74891929999998,
+    "source": "Google Places",
+    "source_url": "http://www.bespokecycles.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-kiwivelo-bicycles-cycles-bikes-auckland",
+    "item": "Kiwivelo Bicycles, Cycles & Bikes",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "19 Barrys Point Road, Takapuna, Auckland 0622",
+    "lat": -36.7916451,
+    "lng": 174.76462519999998,
+    "source": "Google Places",
+    "source_url": "http://www.kiwivelo.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-bike-repair-station-auckland",
+    "item": "Bike Repair Station",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "29B New Bond Street, Kingsland, Auckland 1021",
+    "lat": -36.8688237,
+    "lng": 174.7461265,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJ5RjpHABHDW0RrURCA3E9vf0",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-bisikleta-auckland-auckland",
+    "item": "Bisikleta Auckland",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "33B Egremont Street, Belmont, Auckland 0622",
+    "lat": -36.808506099999995,
+    "lng": 174.7858891,
+    "source": "Google Places",
+    "source_url": "https://www.facebook.com/BisikletaAK/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-cyco-bike-shop-auckland",
+    "item": "CYCO Bike Shop",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "348 New North Road, Kingsland, Auckland 1021",
+    "lat": -36.869377199999995,
+    "lng": 174.7498307,
+    "source": "Google Places",
+    "source_url": "http://www.cyco.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"bike repair shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:03.594Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-hospice-shop-ellice-road-auckland",
+    "item": "Hospice Shop, Ellice Road",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "60 Ellice Road, Wairau Valley, Auckland 0629",
+    "lat": -36.766122,
+    "lng": 174.7310803,
+    "source": "Google Places",
+    "source_url": "https://harbourhospice.org.nz/shop-with-us/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"op shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.094Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-zero-waste-charity-store-auckland",
+    "item": "Zero Waste Charity Store",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "20/18 Link Drive, Wairau Valley, Auckland 0627",
+    "lat": -36.764638399999995,
+    "lng": 174.7371988,
+    "source": "Google Places",
+    "source_url": "http://www.charitystore.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"op shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.094Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-spca-op-shop-wairau-auckland",
+    "item": "SPCA Op Shop Wairau",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "121 Wairau Road, Wairau Valley, Auckland 0627",
+    "lat": -36.77328,
+    "lng": 174.74243669999998,
+    "source": "Google Places",
+    "source_url": "https://www.spca.nz/opshops/wairau-op-shop",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"op shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.094Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-northcote-central-auckland",
+    "item": "Northcote Central",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "Lake Road, Northcote, Auckland 0627",
+    "lat": -36.8012662,
+    "lng": 174.74584149999998,
+    "source": "Google Places",
+    "source_url": "https://www.northcote.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"op shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.094Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-habitat-for-humanity-restore-north-shore-auckland",
+    "item": "Habitat for Humanity ReStore North Shore",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "Unit 15/18 Link Drive, Wairau Valley, Auckland 0627",
+    "lat": -36.764482799999996,
+    "lng": 174.7366087,
+    "source": "Google Places",
+    "source_url": "https://habitat.org.nz/restore/north-shore/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"op shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.094Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-red-cross-shop-wairau-park-auckland",
+    "item": "Red Cross Shop Wairau Park",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "Unit M/18 Link Drive, Wairau Park, Auckland 0627",
+    "lat": -36.7645617,
+    "lng": 174.73686229999998,
+    "source": "Google Places",
+    "source_url": "https://www.redcross.org.nz/red-cross-shops",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"op shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.094Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-vinnies-op-shop-glenfield-auckland",
+    "item": "Vinnies Op Shop - Glenfield",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "8/75 Ellice Road, Wairau Valley, Auckland 0629",
+    "lat": -36.7665416,
+    "lng": 174.7308507,
+    "source": "Google Places",
+    "source_url": "https://www.svdp.org.nz/page/our-shops/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"op shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.094Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-st-pauls-anglican-church-opportunity-shop-auckland",
+    "item": "St Pauls Anglican Church Opportunity Shop",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "2 Otakau Road, Milford, Auckland 0620",
+    "lat": -36.7740207,
+    "lng": 174.7640432,
+    "source": "Google Places",
+    "source_url": "https://www.stpaulsmilford.co.nz/op-shop",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"op shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.094Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-spca-op-shop-milford-auckland",
+    "item": "SPCA Op Shop Milford",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "129 Kitchener Road, Milford, Auckland 0620",
+    "lat": -36.772627899999996,
+    "lng": 174.7655237,
+    "source": "Google Places",
+    "source_url": "https://www.spca.nz/opshops/milford-op-shop",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"op shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.094Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-recycle-boutique-auckland",
+    "item": "Recycle Boutique",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "9 Darby Street, Auckland City, Auckland 1010",
+    "lat": -36.849430399999996,
+    "lng": 174.7644172,
+    "source": "Google Places",
+    "source_url": "http://www.recycleboutique.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"second hand shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.611Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-paper-bag-princess-auckland",
+    "item": "Paper Bag Princess",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "202 Karangahape Road, Auckland CBD, Auckland 1010",
+    "lat": -36.8579478,
+    "lng": 174.7597949,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJT9AV-OhHDW0RC4cbS2Qsa6w",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"second hand shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.611Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-second-avenue-auckland",
+    "item": "Second Avenue",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "55 Hurstmere Road, Takapuna, Auckland 0622",
+    "lat": -36.7872033,
+    "lng": 174.7729523,
+    "source": "Google Places",
+    "source_url": "http://www.secondavenue.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"second hand shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.611Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-hospice-shop-ellice-road-auckland",
+    "item": "Hospice Shop, Ellice Road",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "60 Ellice Road, Wairau Valley, Auckland 0629",
+    "lat": -36.766122,
+    "lng": 174.7310803,
+    "source": "Google Places",
+    "source_url": "https://harbourhospice.org.nz/shop-with-us/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"second hand shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.611Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-royal-oak-traders-auckland",
+    "item": "Royal Oak Traders",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "717 Mount Albert Road, Royal Oak, Auckland 1023",
+    "lat": -36.912018499999995,
+    "lng": 174.7754803,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJ9fASB6dIDW0RuLFlAV52Eqg",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"second hand shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.611Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-down-town-second-hand-trade-auckland",
+    "item": "Down Town Second Hand Trade",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "490 Queen Street, Auckland CBD, Auckland 1010",
+    "lat": -36.856454,
+    "lng": 174.76228899999998,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJfZOXouhHDW0RGF3hA05Ixmk",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"second hand shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.611Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-st-kevins-arcade-auckland",
+    "item": "St Kevins Arcade",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "183 Karangahape Road, CBD, Auckland 1010",
+    "lat": -36.857693999999995,
+    "lng": 174.7601386,
+    "source": "Google Places",
+    "source_url": "http://www.stkevinsarcade.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"second hand shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.611Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-habitat-for-humanity-restore-north-shore-auckland",
+    "item": "Habitat for Humanity ReStore North Shore",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "Unit 15/18 Link Drive, Wairau Valley, Auckland 0627",
+    "lat": -36.764482799999996,
+    "lng": 174.7366087,
+    "source": "Google Places",
+    "source_url": "https://habitat.org.nz/restore/north-shore/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"second hand shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.611Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-tatty-s-auckland",
+    "item": "Tatty's",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "161 Ponsonby Road, Ponsonby, Auckland 1011",
+    "lat": -36.8545345,
+    "lng": 174.74610439999998,
+    "source": "Google Places",
+    "source_url": "http://tattys.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"second hand shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.611Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-crushes-auckland",
+    "item": "Crushes",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "235 Karangahape Road, Newton, Auckland 1010",
+    "lat": -36.8575394,
+    "lng": 174.75926020000003,
+    "source": "Google Places",
+    "source_url": "http://www.crushes.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"second hand shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.611Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-wistle-co-auckland",
+    "item": "wistle+co",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "62B Porana Road, Wairau Valley, Auckland 0627",
+    "lat": -36.783341799999995,
+    "lng": 174.7409634,
+    "source": "Google Places",
+    "source_url": "https://www.wistleandco.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"second hand shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.611Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-junk-disorderly-auckland",
+    "item": "Junk & Disorderly",
+    "category": "used",
+    "suburb": "Auckland",
+    "address": "164 Balmoral Road, Mount Eden, Auckland 1024",
+    "lat": -36.887855699999996,
+    "lng": 174.7493667,
+    "source": "Google Places",
+    "source_url": "http://www.junkndisorderly.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"second hand shop Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:04.611Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-judy-clothing-alterations-auckland",
+    "item": "Judy Clothing Alterations",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "4/78 Birkenhead Avenue, Birkenhead, Auckland 0626",
+    "lat": -36.808889799999996,
+    "lng": 174.72504940000002,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJl-7HAc05DW0ReLQWnji8zIQ",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-wardrobe-clothing-alterations-auckland",
+    "item": "Wardrobe Clothing Alterations",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "3/23 Ocean View Road, Hillcrest, Auckland 0627",
+    "lat": -36.7948569,
+    "lng": 174.743991,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJcRz50bI5DW0RkUsKzRDuj1Q",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-chic-alterations-auckland",
+    "item": "Chic alterations",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "143 Porritt Avenue, Chatswood, Auckland 0626",
+    "lat": -36.8115332,
+    "lng": 174.7192773,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJl77XCqA5DW0R_fswBhuR7ys",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-looksmart-glenfield-auckland",
+    "item": "LookSmart Glenfield",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "Shop 358B, Glenfield Mall, Corner Glenfield Road and, Downing Street, Glenfield, Auckland 0629",
+    "lat": -36.78268,
+    "lng": 174.722172,
+    "source": "Google Places",
+    "source_url": "https://www.looksmartalterations.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-auckland-alterations-auckland",
+    "item": "Auckland Alterations",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "Level 2/17 Taylors Road, Morningside, Auckland 1025",
+    "lat": -36.876055099999995,
+    "lng": 174.733603,
+    "source": "Google Places",
+    "source_url": "https://aucklandalterations.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-anima-auckland",
+    "item": "Anima",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "181 Coronation Road, Hillcrest, Auckland 0627",
+    "lat": -36.7875848,
+    "lng": 174.74140459999998,
+    "source": "Google Places",
+    "source_url": "https://www.facebook.com/anima.akl",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-silhouette-alterations-auckland",
+    "item": "Silhouette Alterations",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "163 Queen Street, Auckland CBD, Auckland 1010",
+    "lat": -36.8477038,
+    "lng": 174.7655132,
+    "source": "Google Places",
+    "source_url": "https://www.hotcity.co.nz/business-directory/silhouette-alterations",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-lina-alteration-tailor-auckland",
+    "item": "Lina alteration tailor",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "220A Archers Road, Glenfield, Auckland 0627",
+    "lat": -36.779115999999995,
+    "lng": 174.74080540000003,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJi4tFoKQ5DW0RBf0xupCDFJc",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-dari-s-alterations-auckland",
+    "item": "Dari's alterations",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "Unit G03/27 Don McKinnon Drive, Albany, Auckland 0630",
+    "lat": -36.7251591,
+    "lng": 174.7066508,
+    "source": "Google Places",
+    "source_url": "https://www.darisalterations.com/?utm_source=google&utm_medium=wix_google_business_profile&utm_campaign=8826852971131187314",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-rose-s-alterations-ltd-auckland",
+    "item": "Rose's Alterations Ltd",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "276 Manukau Road, Epsom, Auckland 1023",
+    "lat": -36.8862544,
+    "lng": 174.77574350000003,
+    "source": "Google Places",
+    "source_url": "http://www.roses.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-twin-needles-auckland",
+    "item": "Twin Needles",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "8/160 Kitchener Road, Milford, Auckland 0620",
+    "lat": -36.7729839,
+    "lng": 174.76576509999998,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJjY5DCec5DW0RZn79_7aEQ0U",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-looksmart-alterations-auckland",
+    "item": "Looksmart Alterations",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "Shop 24, NorthWest Shopping Centre 7 Fred Taylor Drive, Westgate, Auckland 0814",
+    "lat": -36.8175239,
+    "lng": 174.61049989999998,
+    "source": "Google Places",
+    "source_url": "https://www.looksmartalterations.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-shore-fit-alterations-collectables-auckland",
+    "item": "Shore Fit Alterations & Collectables",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "86s Bush Road, Albany, Auckland 0632",
+    "lat": -36.7397789,
+    "lng": 174.7037349,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJhxKUieU7DW0Ry_OrtD5i1k0",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-angel-s-wedding-wear-urgent-services-clothes-alterations-auckland",
+    "item": "Angel's wedding wear & urgent services clothes alterations",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "337 East Coast Road, Mairangi Bay, Auckland 0630",
+    "lat": -36.743948599999996,
+    "lng": 174.74004879999998,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJW-bfpy86DW0RlXk5G8uU8s4",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-youtab-alteration-upholstery-auckland",
+    "item": "Youtab Alteration Upholstery",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "188 Beach Haven Road, Beach Haven, Auckland 0626",
+    "lat": -36.789782599999995,
+    "lng": 174.69253469999998,
+    "source": "Google Places",
+    "source_url": "https://www.google.com/maps/place/?q=place_id:ChIJGQNbPvo7DW0RYFwTREl9bq4",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-looksmart-st-lukes-auckland",
+    "item": "LookSmart St Lukes",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "Shop 422/80 Saint Lukes Road, Mount Albert, Auckland 1346",
+    "lat": -36.882968,
+    "lng": 174.73416039999998,
+    "source": "Google Places",
+    "source_url": "https://www.looksmartalterations.co.nz/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  },
+  {
+    "id": "google_places-clothing-alterations-auckland",
+    "item": "Clothing Alterations",
+    "category": "repair",
+    "suburb": "Auckland",
+    "address": "145 Kitchener Road, Milford, Auckland 0620",
+    "lat": -36.7722061,
+    "lng": 174.7644085,
+    "source": "Google Places",
+    "source_url": "https://milfordshops.co.nz/business-listing/pintin-2/",
+    "status": "unconfirmed",
+    "checked_date": "",
+    "conditions": {
+      "hours": "",
+      "fee": "",
+      "eligibility": "",
+      "membership": "",
+      "dropoff_pickup": ""
+    },
+    "notes": "Imported via Google Places text search (\"clothing alterations repair Auckland\") — hours/fee/eligibility not returned by this query, needs human verification.",
+    "source_system": "google_places",
+    "fetched_at": "2026-10-10T07:36:05.524Z",
+    "missing_fields": [
+      "suburb",
+      "conditions.hours",
+      "conditions.fee"
+    ]
+  }
+]

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Map, Marker, Popup, NavigationControl } from "react-map-gl/maplibre";
 import { setWorkerUrl } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { buildDirectionsUrl } from "../../lib/geo";
 
 // MapLibre GL loads its vector-tile decoding code in a Web Worker, resolved
 // via `import.meta.url` relative to its own bundled chunk. Next.js/Turbopack
@@ -53,25 +54,10 @@ function safeExternalUrl(url) {
 const SERVICE_PIN_COLOR = "#2f6b3a";
 const EVENT_PIN_COLOR = "#d9822b";
 const USER_PIN_COLOR = "#1f5fb0";
+const GOOGLE_PIN_COLOR = "#4285f4";
 
 function pinColorForCategory(category) {
   return category === "event" ? EVENT_PIN_COLOR : SERVICE_PIN_COLOR;
-}
-
-// Google Maps' documented directions URL: if `origin` is omitted, Google
-// Maps uses the device's current location when the link is opened (asking
-// for location permission itself). We still pass an explicit origin when we
-// already have one from "Find near me" — avoids asking twice and keeps the
-// route anchored to the point the user picked in this app.
-function buildDirectionsUrl(destination, origin) {
-  const params = new URLSearchParams({
-    api: "1",
-    destination: `${destination.lat},${destination.lng}`,
-  });
-  if (origin) {
-    params.set("origin", `${origin.lat},${origin.lng}`);
-  }
-  return `https://www.google.com/maps/dir/?${params.toString()}`;
 }
 
 function MarkerPin({ color }) {
@@ -88,10 +74,17 @@ function MarkerPin({ color }) {
   );
 }
 
-export default function MapView({ results, userLocation, onUnavailable }) {
+export default function MapView({
+  results,
+  googleResults = [],
+  userLocation,
+  onUnavailable,
+  selectedId,
+  onSelectResult,
+}) {
   const mapRef = useRef(null);
   const errorTimestampsRef = useRef([]);
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedGoogleIndex, setSelectedGoogleIndex] = useState(null);
 
   // Only used for the very first paint — the fitBounds effect below takes
   // over any time the filters/location change after that.
@@ -136,6 +129,7 @@ export default function MapView({ results, userLocation, onUnavailable }) {
     if (!map) return;
 
     const points = results.map((r) => [r.lng, r.lat]);
+    for (const r of googleResults) points.push([r.lng, r.lat]);
     if (userLocation) points.push([userLocation.lng, userLocation.lat]);
 
     if (points.length === 0) {
@@ -153,7 +147,24 @@ export default function MapView({ results, userLocation, onUnavailable }) {
         { padding: 48, maxZoom: 15, duration: 300 }
       );
     }
-  }, [results, userLocation]);
+  }, [results, googleResults, userLocation]);
+
+  // Google results get a fresh set each search — drop any stale selection
+  // from a previous search rather than leaving a dead popup open.
+  useEffect(() => {
+    setSelectedGoogleIndex(null);
+  }, [googleResults]);
+
+  // Lets a "View on map" button on a result card (outside this component)
+  // jump straight to that pin, not just the viewport-fit effect above which
+  // only reacts to the filtered list or user location changing.
+  useEffect(() => {
+    if (!selectedId) return;
+    const map = mapRef.current?.getMap();
+    const selected = results.find((r) => r.id === selectedId);
+    if (!map || !selected) return;
+    map.easeTo({ center: [selected.lng, selected.lat], zoom: 15, duration: 400 });
+  }, [selectedId, results]);
 
   const selectedResult = results.find((r) => r.id === selectedId) || null;
 
@@ -175,10 +186,25 @@ export default function MapView({ results, userLocation, onUnavailable }) {
           anchor="bottom"
           onClick={(e) => {
             e.originalEvent.stopPropagation();
-            setSelectedId(result.id);
+            onSelectResult(result.id);
           }}
         >
           <MarkerPin color={pinColorForCategory(result.category)} />
+        </Marker>
+      ))}
+
+      {googleResults.map((result, index) => (
+        <Marker
+          key={result.mapsUrl}
+          longitude={result.lng}
+          latitude={result.lat}
+          anchor="bottom"
+          onClick={(e) => {
+            e.originalEvent.stopPropagation();
+            setSelectedGoogleIndex(index);
+          }}
+        >
+          <MarkerPin color={GOOGLE_PIN_COLOR} />
         </Marker>
       ))}
 
@@ -195,31 +221,114 @@ export default function MapView({ results, userLocation, onUnavailable }) {
           anchor="bottom"
           offset={28}
           closeOnClick={false}
-          onClose={() => setSelectedId(null)}
+          onClose={() => onSelectResult(null)}
         >
           <strong>{selectedResult.item}</strong>
           <br />
-          {selectedResult.suburb} &middot; {selectedResult.category}
-          <br />
-          Source: {selectedResult.source} ({selectedResult.status}, checked {selectedResult.checked_date})
-          <br />
-          {safeExternalUrl(selectedResult.source_url) ? (
-            <a href={safeExternalUrl(selectedResult.source_url)} target="_blank" rel="noopener noreferrer">
-              View source
-            </a>
-          ) : (
-            <span>Source link unavailable</span>
+          {selectedResult.address || selectedResult.suburb}
+          {typeof selectedResult.distanceKm === "number" && (
+            <> &middot; {selectedResult.distanceKm.toFixed(1)} km away</>
           )}
           <br />
-          <a
-            href={buildDirectionsUrl(selectedResult, userLocation)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Get directions
-          </a>
-          <br />
+          {selectedResult.conditions?.hours && (
+            <>
+              🕒 {selectedResult.conditions.hours}
+              <br />
+            </>
+          )}
+          {selectedResult.conditions?.fee && (
+            <>
+              💲 {selectedResult.conditions.fee}
+              <br />
+            </>
+          )}
+          Source: {selectedResult.source} ({selectedResult.status}, checked {selectedResult.checked_date})
+          <div className="popup-actions">
+            {safeExternalUrl(selectedResult.source_url) ? (
+              <a
+                className="popup-action-button"
+                href={safeExternalUrl(selectedResult.source_url)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View source
+              </a>
+            ) : (
+              <span>Source link unavailable</span>
+            )}
+            <a
+              className="popup-action-button popup-action-primary"
+              href={buildDirectionsUrl(selectedResult, userLocation)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get directions
+            </a>
+          </div>
           <a href={`#result-${selectedResult.id}`}>View full details &darr;</a>
+        </Popup>
+      )}
+
+      {selectedGoogleIndex !== null && googleResults[selectedGoogleIndex] && (
+        <Popup
+          longitude={googleResults[selectedGoogleIndex].lng}
+          latitude={googleResults[selectedGoogleIndex].lat}
+          anchor="bottom"
+          offset={28}
+          closeOnClick={false}
+          onClose={() => setSelectedGoogleIndex(null)}
+        >
+          <span className="category-tag category-google">From Google</span>
+          <br />
+          <strong>{googleResults[selectedGoogleIndex].name}</strong>
+          <br />
+          {googleResults[selectedGoogleIndex].address}
+          {typeof googleResults[selectedGoogleIndex].distanceKm === "number" && (
+            <> &middot; {googleResults[selectedGoogleIndex].distanceKm.toFixed(1)} km away</>
+          )}
+          <br />
+          {googleResults[selectedGoogleIndex].rating && (
+            <>
+              ★ {googleResults[selectedGoogleIndex].rating}
+              {googleResults[selectedGoogleIndex].ratingCount
+                ? ` (${googleResults[selectedGoogleIndex].ratingCount})`
+                : ""}
+              <br />
+            </>
+          )}
+          {typeof googleResults[selectedGoogleIndex].openNow === "boolean" && (
+            <>
+              {googleResults[selectedGoogleIndex].temporarilyClosed
+                ? "Temporarily closed"
+                : googleResults[selectedGoogleIndex].openNow
+                  ? "Open now"
+                  : "Closed now"}
+              <br />
+            </>
+          )}
+          <div className="popup-actions">
+            <a
+              className="popup-action-button"
+              href={googleResults[selectedGoogleIndex].mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Google Maps
+            </a>
+            <a
+              className="popup-action-button popup-action-primary"
+              href={buildDirectionsUrl(googleResults[selectedGoogleIndex], userLocation)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get directions
+            </a>
+          </div>
+          {googleResults[selectedGoogleIndex].websiteUrl && (
+            <a href={googleResults[selectedGoogleIndex].websiteUrl} target="_blank" rel="noopener noreferrer">
+              Visit website &rarr;
+            </a>
+          )}
         </Popup>
       )}
     </Map>

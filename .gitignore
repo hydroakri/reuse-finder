@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated, regeneratable scratch files — not a source of truth
+/data/item_synonyms.suggestions.json
+/data/import_candidates/.last_run.json
