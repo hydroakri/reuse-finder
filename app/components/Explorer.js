@@ -4,6 +4,7 @@ import { useMemo, useState, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
 import ResultsList from "./ResultsList";
 import GoogleFallback from "./GoogleFallback";
+import SemanticFallback from "./SemanticFallback";
 import { haversineDistanceKm } from "../../lib/geo";
 
 // M3 kill switch: flip to false to hide the map entirely (list/search still
@@ -209,6 +210,8 @@ export default function Explorer({ services }) {
   const [locationPromptVisible, setLocationPromptVisible] = useState(false);
   const [locationPromptDismissed, setLocationPromptDismissed] = useState(false);
   const [googleResults, setGoogleResults] = useState([]);
+  const [semanticResults, setSemanticResults] = useState([]);
+  const [semanticStatus, setSemanticStatus] = useState("idle");
 
   const suburbOptions = useMemo(() => buildSuburbOptions(services), [services]);
 
@@ -314,6 +317,18 @@ export default function Explorer({ services }) {
 
   const hasActiveFilters = keyword !== "" || suburb !== "" || category !== "all";
 
+  // 3-tier waterfall: exact/synonym/typo match (filtered) -> semantic match
+  // over our own data -> Google Places live fallback, each tier only
+  // consulted if the one before it found nothing. Semantic ranks over our
+  // own verified data, so it's tried before Google per the project's
+  // "our data first" principle.
+  const displayResults = filtered.length > 0 ? filtered : semanticResults;
+  const showingSemanticResults = filtered.length === 0 && semanticResults.length > 0;
+  const showGoogleFallback =
+    filtered.length === 0 &&
+    semanticResults.length === 0 &&
+    (semanticStatus === "done" || semanticStatus === "error" || semanticStatus === "idle");
+
   return (
     <section>
       <div className="filter-bar">
@@ -404,7 +419,7 @@ export default function Explorer({ services }) {
         <div className="map-region" id="map-region">
           {mapAvailable ? (
             <MapView
-              results={filtered}
+              results={displayResults}
               googleResults={googleResults}
               userLocation={userLocation}
               onUnavailable={handleMapUnavailable}
@@ -419,7 +434,19 @@ export default function Explorer({ services }) {
         </div>
       )}
 
-      {filtered.length === 0 ? (
+      <SemanticFallback
+        query={filtered.length === 0 ? keyword : ""}
+        services={services}
+        userLocation={userLocation}
+        matchesSuburb={matchesSuburb}
+        matchesCategory={matchesCategory}
+        suburb={suburb}
+        category={category}
+        onResultsChange={setSemanticResults}
+        onStatusChange={setSemanticStatus}
+      />
+
+      {displayResults.length === 0 ? (
         <div className="empty-state">
           <p>
             No matches for this combination — not necessarily nothing
@@ -428,18 +455,30 @@ export default function Explorer({ services }) {
           <button type="button" className="link-button" onClick={resetFilters}>
             Clear all filters
           </button>
-          <GoogleFallback
-            query={buildFallbackQuery(keyword, suburb)}
-            userLocation={userLocation}
-            onResultsChange={setGoogleResults}
-          />
+          {semanticStatus === "loading" && (
+            <p className="status-note">Searching for broader matches…</p>
+          )}
+          {showGoogleFallback && (
+            <GoogleFallback
+              query={buildFallbackQuery(keyword, suburb)}
+              userLocation={userLocation}
+              onResultsChange={setGoogleResults}
+            />
+          )}
         </div>
       ) : (
-        <ResultsList
-          results={filtered}
-          onViewOnMap={ENABLE_MAP ? viewOnMap : null}
-          userLocation={userLocation}
-        />
+        <>
+          {showingSemanticResults && (
+            <p className="status-note">
+              No exact matches — showing broader matches based on meaning.
+            </p>
+          )}
+          <ResultsList
+            results={displayResults}
+            onViewOnMap={ENABLE_MAP ? viewOnMap : null}
+            userLocation={userLocation}
+          />
+        </>
       )}
     </section>
   );
