@@ -4,6 +4,23 @@ Sectioned by Sprint (the team's Scrum terminology) once Sprint 1 actually
 starts (2026-09-21 per the plan); anything before that date falls under
 Iteration Zero, matching the Charter. Not semver.
 
+## Sprint 2 – Scalable search + data sourcing (2026-10-10)
+
+### Added
+- `scripts/generate_item_synonyms.js` — generates candidate item-keyword synonym pairs from WordNet (offline, via `wordpos`/`wordnet-db`), for a human to review and hand-copy into `ITEM_SYNONYMS`, instead of inventing every pair from scratch. Not wired into CI — changes search behaviour, so it goes through the same human-review principle as data.
+- `scripts/import/` — manual-only import pipeline for OpenStreetMap Overpass (free, no key) and Google Places (needs an API key, skips cleanly if unset). Fetches, normalizes to the existing schema, drops duplicates of what's already in `data/services.json` or a prior unreviewed candidate file, writes `data/import_candidates/<source>-<date>.json`. Never writes to `services.json` directly — a human reviews and copies entries in, same as the existing "Suggest a listing" flow. A `.last_run.json` staleness marker (~20h) stops an accidental re-run from wasting Overpass/Places quota; there is no scheduled/cron trigger by design.
+- First real import run (OSM): 331 candidates, including 190 in the `used` category, which previously had zero real records.
+- First real import run (Google Places, with a user-supplied API key): 57 candidates (36 repair, 21 used) — real, named businesses with working websites (e.g. Point Bike Services, EC Cycles, Ride Happy Repairs), confirming the source works end-to-end.
+
+### Changed
+- Extracted `AUCKLAND_BOUNDS` out of `scripts/validate_data.js` into `scripts/lib/auckland_bounds.js` (behaviour-preserving) so the import pipeline can reject out-of-region candidates before they reach a reviewer.
+
+### Known gaps / decisions
+- Considered a local embedding-model (vector) search instead of WordNet-based synonym generation — decided against it: brings in a native binary dependency (`sharp`, via `onnxruntime`) the project's Nix devShell can't build, and needs ~25-90MB of model weights downloaded at runtime with no existing fallback machinery for that failure mode. WordNet-based generation keeps the existing `Explorer.js` matching logic untouched.
+- A third import source (Auckland Council open data) was planned but dropped — confirmed Auckland Council has no structured open-data feed for recycling/resource-recovery facilities (other regions like Wellington/Christchurch do; Auckland doesn't). That handful of facilities is better suited to one-off manual research than an automated source.
+- "Suggest a listing" was considered as a fourth import source but stays out of scope this round (same narrower-MVP decision as before).
+- The 331 OSM candidates are unreviewed — nothing has been merged into `data/services.json` yet.
+
 ## Sprint 1 – Stabilised foundation (2026-10-01)
 
 ### Added

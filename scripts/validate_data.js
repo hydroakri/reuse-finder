@@ -5,6 +5,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const { isWithinAucklandBounds } = require('./lib/auckland_bounds');
 
 const DATA_FILE = path.join(__dirname, '..', 'data', 'services.json');
 
@@ -12,9 +13,6 @@ const VALID_CATEGORIES = ['repair', 'borrow', 'rent', 'used', 'event'];
 const VALID_STATUSES = ['active', 'inactive', 'unconfirmed', 'unverified-sample'];
 const REQUIRED_STRING_FIELDS = ['id', 'item', 'category', 'suburb', 'source', 'source_url', 'status', 'checked_date'];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-
-// Rough bounding box for the Auckland region — catches obvious typos (e.g. swapped lat/lng).
-const AUCKLAND_BOUNDS = { minLat: -37.4, maxLat: -36.0, minLng: 174.3, maxLng: 175.3 };
 
 function fail(errors) {
   console.error(`\nFAILED: ${errors.length} problem(s) found in data/services.json\n`);
@@ -72,11 +70,8 @@ function main() {
 
     if (typeof record.lat !== 'number' || typeof record.lng !== 'number') {
       errors.push(`${where}: lat/lng must both be numbers (needed for the map view)`);
-    } else {
-      const { minLat, maxLat, minLng, maxLng } = AUCKLAND_BOUNDS;
-      if (record.lat < minLat || record.lat > maxLat || record.lng < minLng || record.lng > maxLng) {
-        errors.push(`${where}: lat/lng (${record.lat}, ${record.lng}) falls outside the expected Auckland region bounding box — check for a typo or swapped lat/lng`);
-      }
+    } else if (!isWithinAucklandBounds(record.lat, record.lng)) {
+      errors.push(`${where}: lat/lng (${record.lat}, ${record.lng}) falls outside the expected Auckland region bounding box — check for a typo or swapped lat/lng`);
     }
 
     if (record.source_url) {
