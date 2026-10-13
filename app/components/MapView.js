@@ -128,8 +128,21 @@ export default function MapView({
     const map = mapRef.current?.getMap();
     if (!map) return;
 
-    const points = results.map((r) => [r.lng, r.lat]);
-    for (const r of googleResults) points.push([r.lng, r.lat]);
+    // When the user has located themselves, Explorer.js has already
+    // distance-sorted `results` (and left any keyword/suburb/category
+    // filters applied) -- but an empty or broad keyword can still mean
+    // "results" spans the entire dataset across Auckland. Framing the
+    // viewport to fit every one of those (plus every Google result, which
+    // isn't distance-sorted at all) zoomed the map OUT to the whole region
+    // on "Find near me" -- the opposite of the point of locating yourself.
+    // Once located, frame around the user and only their nearest matches;
+    // farther matches are still listed below, just not forcing the zoom out.
+    const NEARBY_LIMIT = 10;
+    const resultsForBounds = userLocation ? results.slice(0, NEARBY_LIMIT) : results;
+    const googleResultsForBounds = userLocation ? [] : googleResults;
+
+    const points = resultsForBounds.map((r) => [r.lng, r.lat]);
+    for (const r of googleResultsForBounds) points.push([r.lng, r.lat]);
     if (userLocation) points.push([userLocation.lng, userLocation.lat]);
 
     if (points.length === 0) {
