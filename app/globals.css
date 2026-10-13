@@ -219,6 +219,12 @@ a {
   margin-bottom: 6px;
 }
 
+.category-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 .category-tag {
   display: inline-block;
   font-size: 0.75rem;

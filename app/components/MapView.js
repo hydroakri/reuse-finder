@@ -56,8 +56,13 @@ const EVENT_PIN_COLOR = "#d9822b";
 const USER_PIN_COLOR = "#1f5fb0";
 const GOOGLE_PIN_COLOR = "#4285f4";
 
-function pinColorForCategory(category) {
-  return category === "event" ? EVENT_PIN_COLOR : SERVICE_PIN_COLOR;
+// Accepts either a single `category` string or a merged `categories` array
+// (Explorer.js groups same-venue records across categories for display) --
+// "event" never co-occurs with another category in this dataset, so a
+// venue is only ever event-coloured when every one of its categories is.
+function pinColorForResult(result) {
+  const categories = result.categories || [result.category];
+  return categories.every((c) => c === "event") ? EVENT_PIN_COLOR : SERVICE_PIN_COLOR;
 }
 
 function MarkerPin({ color }) {
@@ -202,7 +207,7 @@ export default function MapView({
             onSelectResult(result.id);
           }}
         >
-          <MarkerPin color={pinColorForCategory(result.category)} />
+          <MarkerPin color={pinColorForResult(result)} />
         </Marker>
       ))}
 

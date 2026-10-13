@@ -42,9 +42,13 @@ export default function ResultsList({ results, onViewOnMap, userLocation }) {
       {results.map((result) => (
         <li key={result.id} id={`result-${result.id}`} className="result-card">
           <div className="result-card-header">
-            <span className={`category-tag category-${result.category}`}>
-              {CATEGORY_LABELS[result.category] ?? result.category}
-            </span>
+            <div className="category-tags">
+              {(result.categories || [result.category]).map((category) => (
+                <span key={category} className={`category-tag category-${category}`}>
+                  {CATEGORY_LABELS[category] ?? category}
+                </span>
+              ))}
+            </div>
             {typeof result.distanceKm === "number" && (
               <span className="distance-tag">
                 {result.distanceKm.toFixed(1)} km away

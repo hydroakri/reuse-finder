@@ -186,6 +186,32 @@ function matchesCategory(service, category) {
   return service.category === category;
 }
 
+// A number of real venues legitimately offer more than one category of
+// service (e.g. a hub that both lends and repairs bikes) and are stored as
+// one record per category -- same item/address/notes/conditions, only
+// `category` differs (confirmed: identical content across every
+// multi-category venue in the dataset). Shown separately under "All
+// categories" that reads as duplicate listings of the same place. This is a
+// display-only merge, applied after filtering/sorting/ranking -- it never
+// touches matchesCategory or any search logic above, which still operates
+// on the original flat per-category records.
+function groupResultsByVenue(results) {
+  const order = [];
+  const groups = new Map();
+  for (const result of results) {
+    const key = `${result.item}|${result.address || result.suburb}`;
+    if (!groups.has(key)) {
+      order.push(key);
+      groups.set(key, { ...result, categories: [] });
+    }
+    const group = groups.get(key);
+    if (!group.categories.includes(result.category)) {
+      group.categories.push(result.category);
+    }
+  }
+  return order.map((key) => groups.get(key));
+}
+
 function buildFallbackQuery(keyword, suburb) {
   return [keyword, suburb]
     .map((part) => (part || "").trim())
@@ -362,6 +388,10 @@ export default function Explorer({ services, communityListings = [] }) {
   // own verified data, so it's tried before Google per the project's
   // "our data first" principle.
   const displayResults = filtered.length > 0 ? filtered : semanticResults;
+  // Merged for rendering only -- every check above (empty-state, semantic
+  // fallback, Google fallback triggers) stays based on the raw per-category
+  // counts, so this has no effect on search/ranking behaviour.
+  const groupedDisplayResults = useMemo(() => groupResultsByVenue(displayResults), [displayResults]);
   const showingSemanticResults = filtered.length === 0 && semanticResults.length > 0;
   const showGoogleFallback =
     filtered.length === 0 &&
@@ -471,7 +501,7 @@ export default function Explorer({ services, communityListings = [] }) {
         <div className="map-region" id="map-region">
           {mapAvailable ? (
             <MapView
-              results={displayResults}
+              results={groupedDisplayResults}
               googleResults={googleResults}
               userLocation={userLocation}
               onUnavailable={handleMapUnavailable}
@@ -519,7 +549,7 @@ export default function Explorer({ services, communityListings = [] }) {
             </p>
           )}
           <ResultsList
-            results={displayResults}
+            results={groupedDisplayResults}
             onViewOnMap={ENABLE_MAP ? viewOnMap : null}
             userLocation={userLocation}
           />
