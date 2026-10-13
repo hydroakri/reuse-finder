@@ -69,6 +69,7 @@ async function fetchPlaces(textQuery, apiKey) {
         "places.rating",
         "places.userRatingCount",
         "places.nationalPhoneNumber",
+        "places.photos",
       ].join(","),
     },
     body: JSON.stringify({ textQuery, regionCode: "NZ" }),
@@ -148,6 +149,11 @@ export async function GET(request) {
             : null,
         temporarilyClosed: place.businessStatus === "CLOSED_TEMPORARILY",
         distanceKm,
+        // Real Google-supplied photo, not a fabricated URL -- the client
+        // fetches it through /api/google-photo so the API key never leaves
+        // the server. Only the first photo; cost scales per photo fetched,
+        // not per place in the FieldMask (see Place Photo SKU).
+        photoName: place.photos?.[0]?.name || null,
       };
     });
 

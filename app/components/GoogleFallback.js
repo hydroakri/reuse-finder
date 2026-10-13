@@ -85,6 +85,20 @@ export default function GoogleFallback({ query, userLocation, onResultsChange })
                   <span className="distance-tag">{result.distanceKm.toFixed(1)} km away</span>
                 )}
               </div>
+              {result.photoName && (
+                // Real Google-supplied photo, proxied through our own
+                // server (see /api/google-photo) so the API key never
+                // reaches the client.
+                <img
+                  className="result-image"
+                  src={`/api/google-photo?name=${encodeURIComponent(result.photoName)}`}
+                  alt={result.name}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+              )}
               <h3>{result.name}</h3>
               {result.address && <p className="result-address">{result.address}</p>}
               <dl className="result-conditions">
