@@ -199,7 +199,7 @@ function resolveCategoryFromKeyword(keyword) {
   return extractCategorySignal(normalizedKeyword.split(/\s+/).filter(Boolean));
 }
 
-export default function Explorer({ services }) {
+export default function Explorer({ services, communityListings = [] }) {
   const [keyword, setKeyword] = useState("");
   const [suburb, setSuburb] = useState("");
   const [category, setCategory] = useState("all");
@@ -229,7 +229,30 @@ export default function Explorer({ services }) {
     window.localStorage.setItem("alwaysShowGoogle", String(alwaysShowGoogle));
   }, [alwaysShowGoogle]);
 
+  // SCRUM-77: aggregate page-load counter only -- no cookies, no per-visitor
+  // identity, nothing that could re-identify anyone. Fire-and-forget; a
+  // failure here should never affect the page.
+  useEffect(() => {
+    fetch("/api/track-visit", { method: "POST" }).catch(() => {});
+  }, []);
+
   const suburbOptions = useMemo(() => buildSuburbOptions(services), [services]);
+
+  // SCRUM-78: community-submitted listings that skipped the review queue.
+  // Filtered with the exact same functions as our own data so searching
+  // behaves consistently, but kept in a separate array/section -- never
+  // merged into `filtered`/`displayResults` -- so the main results list
+  // stays strictly our manually-verified data.
+  const matchingCommunityListings = useMemo(
+    () =>
+      communityListings.filter(
+        (listing) =>
+          matchesKeyword(listing, keyword) &&
+          matchesSuburb(listing, suburb) &&
+          matchesCategory(listing, category)
+      ),
+    [communityListings, keyword, suburb, category]
+  );
 
   const filtered = useMemo(() => {
     let list = services.filter(
@@ -514,6 +537,18 @@ export default function Explorer({ services }) {
         userLocation={userLocation}
         onResultsChange={setGoogleResults}
       />
+
+      {/* SCRUM-78: community-submitted listings that skipped review — kept
+          in their own clearly-labelled section below everything else,
+          same separation principle as the Google section above. */}
+      {matchingCommunityListings.length > 0 && (
+        <div className="community-listings">
+          <p className="status-note">
+            ⚠️ Community-submitted listings below — not reviewed by our team.
+          </p>
+          <ResultsList results={matchingCommunityListings} userLocation={userLocation} />
+        </div>
+      )}
     </section>
   );
 }

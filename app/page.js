@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Explorer from "./components/Explorer";
 import servicesData from "../data/services.json";
+import communityListingsData from "../data/community_listings.json";
 
 // Server Component: data is read from the single source-of-truth JSON file
 // at build/request time. All interactivity (search, filter, map) lives in
@@ -18,7 +19,7 @@ export default function Home() {
           <Link href="/submit">Suggest a listing &rarr;</Link>
         </p>
       </header>
-      <Explorer services={servicesData} />
+      <Explorer services={servicesData} communityListings={communityListingsData} />
       <footer className="page-footer">
         <p>
           Event listings are compiled from{" "}
