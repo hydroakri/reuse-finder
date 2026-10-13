@@ -25,6 +25,17 @@ function safeExternalUrl(url) {
   }
 }
 
+// Same http(s) check as safeExternalUrl, but also allows a same-origin
+// relative path (e.g. "/api/google-photo?name=...") -- used for images,
+// which can come from our own photo-proxy route as well as a genuine
+// external URL. A leading "/" can't carry a javascript:/data: payload, so
+// this stays just as safe as the http(s)-only check above.
+function safeImageUrl(url) {
+  if (typeof url !== "string") return null;
+  if (url.startsWith("/")) return url;
+  return safeExternalUrl(url);
+}
+
 export default function ResultsList({ results, onViewOnMap, userLocation }) {
   return (
     <ul className="results-list">
@@ -40,14 +51,14 @@ export default function ResultsList({ results, onViewOnMap, userLocation }) {
               </span>
             )}
           </div>
-          {safeExternalUrl(result.image_url) && (
+          {safeImageUrl(result.image_url) && (
             // eslint-disable-next-line @next/next/no-img-element -- external,
             // per-record URLs from community-sourced data; next/image's
             // domain allowlist would need updating per source, not worth it
             // at this scale.
             <img
               className="result-image"
-              src={safeExternalUrl(result.image_url)}
+              src={safeImageUrl(result.image_url)}
               alt={result.item}
               loading="lazy"
               onError={(e) => {
