@@ -13,6 +13,7 @@ const EMPTY_FORM = {
   source_url: "",
   notes: "",
   image_url: "",
+  contact: "",
   publish_unverified: false,
   submitter_contact: "",
   company_website: "", // honeypot — must stay empty; hidden from real users via CSS
@@ -136,6 +137,14 @@ export default function SubmitPage() {
               type="url"
               value={form.image_url}
               onChange={updateField("image_url")}
+            />
+          </label>
+          <label>
+            Venue contact / phone (optional)
+            <input
+              type="text"
+              value={form.contact}
+              onChange={updateField("contact")}
             />
           </label>
           <label className="checkbox-field">

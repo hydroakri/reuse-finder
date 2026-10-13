@@ -81,6 +81,12 @@ export default function ResultsList({ results, onViewOnMap, userLocation }) {
           )}
 
           <dl className="result-conditions">
+            {result.contact && (
+              <>
+                <dt>Contact</dt>
+                <dd>{result.contact}</dd>
+              </>
+            )}
             {result.conditions?.hours && (
               <>
                 <dt>Hours</dt>

@@ -104,6 +104,7 @@ export async function POST(request) {
     source_url: body.source_url.trim(),
     notes: typeof body.notes === "string" ? body.notes.trim() : "",
     image_url: imageUrl,
+    contact: typeof body.contact === "string" ? body.contact.trim() : "",
     submitter_contact:
       typeof body.submitter_contact === "string" ? body.submitter_contact.trim() : "",
     status: publishUnverified ? "unverified-community" : "pending_review",
