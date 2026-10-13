@@ -29,6 +29,9 @@ export default function Home() {
           , an independent Auckland events newsletter. Descriptions here are
           our own summaries, not reproduced from their newsletter.
         </p>
+        <p>
+          <Link href="/stats">Usage stats (internal)</Link>
+        </p>
       </footer>
     </main>
   );

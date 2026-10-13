@@ -506,3 +506,21 @@ a {
   color: inherit;
   text-decoration: underline;
 }
+
+.stats-total {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.stats-table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 360px;
+}
+
+.stats-table th,
+.stats-table td {
+  text-align: left;
+  padding: 6px 12px 6px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+}
