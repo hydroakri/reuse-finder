@@ -248,6 +248,12 @@ export default function MapView({
             <> &middot; {selectedResult.distanceKm.toFixed(1)} km away</>
           )}
           <br />
+          {selectedResult.contact && (
+            <>
+              ☎ {selectedResult.contact}
+              <br />
+            </>
+          )}
           {selectedResult.conditions?.hours && (
             <>
               🕒 {selectedResult.conditions.hours}

@@ -1,19 +1,25 @@
 #!/usr/bin/env node
-// SCRUM-74: look up a REAL photo per curated venue via Google Places Text
-// Search + Photo Media, writing straight into data/services.json (not a
-// reviewable candidate file like scripts/import/ -- these are enrichments
-// of already-verified existing records, not new unverified data).
+// SCRUM-74 + SCRUM-22: look up a REAL photo and phone number per curated
+// venue via Google Places Text Search, writing straight into
+// data/services.json (not a reviewable candidate file like scripts/import/
+// -- these are enrichments of already-verified existing records, not new
+// unverified data).
 //
 // Safety gate against mismatching a venue to the wrong real-world place
-// (which would misrepresent a real organisation, worse than no photo at
-// all): only accepts a match whose returned location is within 150m of our
-// own already-verified lat/lng -- same "same real-world place" distance
+// (which would misrepresent a real organisation, worse than no photo/phone
+// at all): only accepts a match whose returned location is within 150m of
+// our own already-verified lat/lng -- same "same real-world place" distance
 // threshold scripts/import/dedupe.js already uses. No name-only matching.
+//
+// Safe to re-run: a venue already holding both image_url and contact is
+// skipped entirely, so running this again after SCRUM-74's first pass only
+// queries venues still missing one of the two.
 //
 // Run with: GOOGLE_PLACES_API_KEY=... node scripts/fetch_service_photos.js
 // Requires network + the same API key used by scripts/import/sources/
 // google_places.js and /api/google-fallback. Cost: one Text Search per
-// unique venue (venues repeated across categories are only queried once).
+// unique venue still missing data (venues repeated across categories are
+// only queried once).
 
 const fs = require("node:fs");
 const path = require("node:path");
@@ -29,7 +35,7 @@ async function searchVenue(record, apiKey) {
     headers: {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": apiKey,
-      "X-Goog-FieldMask": "places.displayName,places.location,places.photos",
+      "X-Goog-FieldMask": "places.displayName,places.location,places.photos,places.nationalPhoneNumber",
     },
     body: JSON.stringify({ textQuery, regionCode: "NZ" }),
   });
@@ -66,16 +72,17 @@ async function main() {
     venues.get(key).push(record);
   }
 
-  let matched = 0;
+  let gotPhoto = 0;
+  let gotContact = 0;
   let skippedTooFar = 0;
-  let skippedNoPhoto = 0;
-  let skippedAlreadyHasImage = 0;
+  let skippedNothingFound = 0;
+  let skippedAlreadyComplete = 0;
   let skippedNoResult = 0;
 
-  for (const [key, group] of venues) {
+  for (const [, group] of venues) {
     const sample = group[0];
-    if (sample.image_url) {
-      skippedAlreadyHasImage += group.length;
+    if (sample.image_url && sample.contact) {
+      skippedAlreadyComplete += group.length;
       continue;
     }
 
@@ -101,27 +108,38 @@ async function main() {
     }
 
     const photoName = place.photos?.[0]?.name;
-    if (!photoName) {
-      skippedNoPhoto += group.length;
-      console.log(`  no photo available: ${sample.item}`);
+    const phone = place.nationalPhoneNumber || null;
+
+    if (!photoName && !phone) {
+      skippedNothingFound += group.length;
+      console.log(`  matched place but no photo or phone available: ${sample.item}`);
       continue;
     }
 
-    const imageUrl = `/api/google-photo?name=${encodeURIComponent(photoName)}`;
     for (const record of group) {
-      record.image_url = imageUrl;
+      if (photoName && !record.image_url) {
+        record.image_url = `/api/google-photo?name=${encodeURIComponent(photoName)}`;
+      }
+      if (phone && !record.contact) {
+        record.contact = phone;
+      }
     }
-    matched += group.length;
-    console.log(`  matched: ${sample.item} (${group.length} record(s))`);
+    if (photoName) gotPhoto += group.length;
+    if (phone) gotContact += group.length;
+    console.log(
+      `  matched: ${sample.item} (${group.length} record(s))` +
+        `${photoName ? " [photo]" : ""}${phone ? " [phone]" : ""}`
+    );
   }
 
   fs.writeFileSync(DATA_FILE, JSON.stringify(records, null, 2) + "\n", "utf8");
 
   console.log(`\nDone. ${venues.size} unique venue(s) checked.`);
-  console.log(`  ${matched} record(s) got a real photo.`);
-  console.log(`  ${skippedAlreadyHasImage} already had image_url, left untouched.`);
+  console.log(`  ${gotPhoto} record(s) got a real photo.`);
+  console.log(`  ${gotContact} record(s) got a phone number.`);
+  console.log(`  ${skippedAlreadyComplete} already had both, left untouched.`);
   console.log(`  ${skippedTooFar} skipped -- best match was further than ${MATCH_DISTANCE_KM * 1000}m away.`);
-  console.log(`  ${skippedNoPhoto} skipped -- matched place but Google has no photo for it.`);
+  console.log(`  ${skippedNothingFound} skipped -- matched place but Google has neither a photo nor a phone for it.`);
   console.log(`  ${skippedNoResult} skipped -- no Places result at all.`);
   console.log(`\nRun 'node scripts/validate_data.js' to confirm services.json is still valid.`);
 }
