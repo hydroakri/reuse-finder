@@ -1,6 +1,8 @@
 "use client";
 
 import { buildDirectionsUrl } from "../../lib/geo";
+import { getRepairTip } from "../../lib/repairTips";
+import RatingWidget from "./RatingWidget";
 
 const CATEGORY_LABELS = {
   repair: "Repair",
@@ -38,11 +40,30 @@ export default function ResultsList({ results, onViewOnMap, userLocation }) {
               </span>
             )}
           </div>
+          {safeExternalUrl(result.image_url) && (
+            // eslint-disable-next-line @next/next/no-img-element -- external,
+            // per-record URLs from community-sourced data; next/image's
+            // domain allowlist would need updating per source, not worth it
+            // at this scale.
+            <img
+              className="result-image"
+              src={safeExternalUrl(result.image_url)}
+              alt={result.item}
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+          )}
           <h3>{result.item}</h3>
           <p className="result-suburb">{result.suburb}</p>
           {result.address && <p className="result-address">{result.address}</p>}
 
           {result.notes && <p className="result-notes">{result.notes}</p>}
+
+          {result.category === "repair" && (
+            <p className="repair-tip">💡 {getRepairTip(result.item, result.notes)}</p>
+          )}
 
           <dl className="result-conditions">
             {result.conditions?.hours && (
@@ -77,6 +98,8 @@ export default function ResultsList({ results, onViewOnMap, userLocation }) {
             )}
           </dl>
 
+          <RatingWidget serviceId={result.id} />
+
           <p className="result-provenance">
             Source: {result.source || "unknown"} &middot; Status:{" "}
             {result.status || "unknown"} &middot; Checked:{" "}
@@ -94,14 +117,16 @@ export default function ResultsList({ results, onViewOnMap, userLocation }) {
                 View original source &rarr;
               </a>
             )}
-            <a
-              className="result-link"
-              href={buildDirectionsUrl(result, userLocation)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Get directions
-            </a>
+            {typeof result.lat === "number" && typeof result.lng === "number" && (
+              <a
+                className="result-link"
+                href={buildDirectionsUrl(result, userLocation)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Get directions
+              </a>
+            )}
             {onViewOnMap && (
               <button
                 type="button"
