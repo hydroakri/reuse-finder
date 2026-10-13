@@ -151,6 +151,16 @@ a {
   text-decoration: underline;
 }
 
+.google-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--foreground) 70%, transparent);
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
 .location-prompt {
   display: flex;
   flex-wrap: wrap;

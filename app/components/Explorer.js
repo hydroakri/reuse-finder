@@ -212,6 +212,22 @@ export default function Explorer({ services }) {
   const [googleResults, setGoogleResults] = useState([]);
   const [semanticResults, setSemanticResults] = useState([]);
   const [semanticStatus, setSemanticStatus] = useState("idle");
+  // SCRUM-73: manual opt-in to blend live Google results alongside our own
+  // at all times, not just on an empty search. Off by default (the ticket's
+  // own wording — "manually switch on and off" — implies opt-in, and it
+  // keeps the established "our data first" default behaviour unchanged for
+  // anyone who never touches the toggle). Persisted so a user who turns it
+  // on doesn't have to redo it every page load.
+  const [alwaysShowGoogle, setAlwaysShowGoogle] = useState(false);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem("alwaysShowGoogle");
+    if (stored === "true") setAlwaysShowGoogle(true);
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("alwaysShowGoogle", String(alwaysShowGoogle));
+  }, [alwaysShowGoogle]);
 
   const suburbOptions = useMemo(() => buildSuburbOptions(services), [services]);
 
@@ -328,6 +344,10 @@ export default function Explorer({ services }) {
     filtered.length === 0 &&
     semanticResults.length === 0 &&
     (semanticStatus === "done" || semanticStatus === "error" || semanticStatus === "idle");
+  // SCRUM-73: the toggle overrides the empty-only trigger above and queries
+  // Google regardless of whether we already have our own results.
+  const googleQuery =
+    alwaysShowGoogle || showGoogleFallback ? buildFallbackQuery(keyword, suburb) : "";
 
   return (
     <section>
@@ -384,6 +404,15 @@ export default function Explorer({ services }) {
           Clear filters
         </button>
       </form>
+
+      <label className="google-toggle">
+        <input
+          type="checkbox"
+          checked={alwaysShowGoogle}
+          onChange={(e) => setAlwaysShowGoogle(e.target.checked)}
+        />
+        Always show Google results alongside ours (unverified)
+      </label>
 
       {locationPromptVisible && (
         <div className="location-prompt">
@@ -458,13 +487,6 @@ export default function Explorer({ services }) {
           {semanticStatus === "loading" && (
             <p className="status-note">Searching for broader matches…</p>
           )}
-          {showGoogleFallback && (
-            <GoogleFallback
-              query={buildFallbackQuery(keyword, suburb)}
-              userLocation={userLocation}
-              onResultsChange={setGoogleResults}
-            />
-          )}
         </div>
       ) : (
         <>
@@ -480,6 +502,18 @@ export default function Explorer({ services }) {
           />
         </>
       )}
+
+      {/* SCRUM-73: renders below either branch above — our own results (or
+          the empty-state) always come first, Google's stay a visually
+          distinct second section rather than being interleaved into the
+          same list. GoogleFallback no-ops (returns null) whenever
+          googleQuery is empty, so this is a no-op unless the toggle is on
+          or the old empty-only trigger fired. */}
+      <GoogleFallback
+        query={googleQuery}
+        userLocation={userLocation}
+        onResultsChange={setGoogleResults}
+      />
     </section>
   );
 }
