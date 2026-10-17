@@ -186,6 +186,32 @@ function matchesCategory(service, category) {
   return service.category === category;
 }
 
+// A number of real venues legitimately offer more than one category of
+// service (e.g. a hub that both lends and repairs bikes) and are stored as
+// one record per category -- same item/address/notes/conditions, only
+// `category` differs (confirmed: identical content across every
+// multi-category venue in the dataset). Shown separately under "All
+// categories" that reads as duplicate listings of the same place. This is a
+// display-only merge, applied after filtering/sorting/ranking -- it never
+// touches matchesCategory or any search logic above, which still operates
+// on the original flat per-category records.
+function groupResultsByVenue(results) {
+  const order = [];
+  const groups = new Map();
+  for (const result of results) {
+    const key = `${result.item}|${result.address || result.suburb}`;
+    if (!groups.has(key)) {
+      order.push(key);
+      groups.set(key, { ...result, categories: [] });
+    }
+    const group = groups.get(key);
+    if (!group.categories.includes(result.category)) {
+      group.categories.push(result.category);
+    }
+  }
+  return order.map((key) => groups.get(key));
+}
+
 function buildFallbackQuery(keyword, suburb) {
   return [keyword, suburb]
     .map((part) => (part || "").trim())
@@ -199,7 +225,7 @@ function resolveCategoryFromKeyword(keyword) {
   return extractCategorySignal(normalizedKeyword.split(/\s+/).filter(Boolean));
 }
 
-export default function Explorer({ services }) {
+export default function Explorer({ services, communityListings = [] }) {
   const [keyword, setKeyword] = useState("");
   const [suburb, setSuburb] = useState("");
   const [category, setCategory] = useState("all");
@@ -212,8 +238,47 @@ export default function Explorer({ services }) {
   const [googleResults, setGoogleResults] = useState([]);
   const [semanticResults, setSemanticResults] = useState([]);
   const [semanticStatus, setSemanticStatus] = useState("idle");
+  // SCRUM-73: manual opt-in to blend live Google results alongside our own
+  // at all times, not just on an empty search. Off by default (the ticket's
+  // own wording — "manually switch on and off" — implies opt-in, and it
+  // keeps the established "our data first" default behaviour unchanged for
+  // anyone who never touches the toggle). Persisted so a user who turns it
+  // on doesn't have to redo it every page load.
+  const [alwaysShowGoogle, setAlwaysShowGoogle] = useState(false);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem("alwaysShowGoogle");
+    if (stored === "true") setAlwaysShowGoogle(true);
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("alwaysShowGoogle", String(alwaysShowGoogle));
+  }, [alwaysShowGoogle]);
+
+  // SCRUM-77: aggregate page-load counter only -- no cookies, no per-visitor
+  // identity, nothing that could re-identify anyone. Fire-and-forget; a
+  // failure here should never affect the page.
+  useEffect(() => {
+    fetch("/api/track-visit", { method: "POST" }).catch(() => {});
+  }, []);
 
   const suburbOptions = useMemo(() => buildSuburbOptions(services), [services]);
+
+  // SCRUM-78: community-submitted listings that skipped the review queue.
+  // Filtered with the exact same functions as our own data so searching
+  // behaves consistently, but kept in a separate array/section -- never
+  // merged into `filtered`/`displayResults` -- so the main results list
+  // stays strictly our manually-verified data.
+  const matchingCommunityListings = useMemo(
+    () =>
+      communityListings.filter(
+        (listing) =>
+          matchesKeyword(listing, keyword) &&
+          matchesSuburb(listing, suburb) &&
+          matchesCategory(listing, category)
+      ),
+    [communityListings, keyword, suburb, category]
+  );
 
   const filtered = useMemo(() => {
     let list = services.filter(
@@ -323,11 +388,19 @@ export default function Explorer({ services }) {
   // own verified data, so it's tried before Google per the project's
   // "our data first" principle.
   const displayResults = filtered.length > 0 ? filtered : semanticResults;
+  // Merged for rendering only -- every check above (empty-state, semantic
+  // fallback, Google fallback triggers) stays based on the raw per-category
+  // counts, so this has no effect on search/ranking behaviour.
+  const groupedDisplayResults = useMemo(() => groupResultsByVenue(displayResults), [displayResults]);
   const showingSemanticResults = filtered.length === 0 && semanticResults.length > 0;
   const showGoogleFallback =
     filtered.length === 0 &&
     semanticResults.length === 0 &&
     (semanticStatus === "done" || semanticStatus === "error" || semanticStatus === "idle");
+  // SCRUM-73: the toggle overrides the empty-only trigger above and queries
+  // Google regardless of whether we already have our own results.
+  const googleQuery =
+    alwaysShowGoogle || showGoogleFallback ? buildFallbackQuery(keyword, suburb) : "";
 
   return (
     <section>
@@ -385,6 +458,15 @@ export default function Explorer({ services }) {
         </button>
       </form>
 
+      <label className="google-toggle">
+        <input
+          type="checkbox"
+          checked={alwaysShowGoogle}
+          onChange={(e) => setAlwaysShowGoogle(e.target.checked)}
+        />
+        Always show Google results alongside ours (unverified)
+      </label>
+
       {locationPromptVisible && (
         <div className="location-prompt">
           <span>
@@ -419,7 +501,7 @@ export default function Explorer({ services }) {
         <div className="map-region" id="map-region">
           {mapAvailable ? (
             <MapView
-              results={displayResults}
+              results={groupedDisplayResults}
               googleResults={googleResults}
               userLocation={userLocation}
               onUnavailable={handleMapUnavailable}
@@ -458,13 +540,6 @@ export default function Explorer({ services }) {
           {semanticStatus === "loading" && (
             <p className="status-note">Searching for broader matches…</p>
           )}
-          {showGoogleFallback && (
-            <GoogleFallback
-              query={buildFallbackQuery(keyword, suburb)}
-              userLocation={userLocation}
-              onResultsChange={setGoogleResults}
-            />
-          )}
         </div>
       ) : (
         <>
@@ -474,11 +549,35 @@ export default function Explorer({ services }) {
             </p>
           )}
           <ResultsList
-            results={displayResults}
+            results={groupedDisplayResults}
             onViewOnMap={ENABLE_MAP ? viewOnMap : null}
             userLocation={userLocation}
           />
         </>
+      )}
+
+      {/* SCRUM-73: renders below either branch above — our own results (or
+          the empty-state) always come first, Google's stay a visually
+          distinct second section rather than being interleaved into the
+          same list. GoogleFallback no-ops (returns null) whenever
+          googleQuery is empty, so this is a no-op unless the toggle is on
+          or the old empty-only trigger fired. */}
+      <GoogleFallback
+        query={googleQuery}
+        userLocation={userLocation}
+        onResultsChange={setGoogleResults}
+      />
+
+      {/* SCRUM-78: community-submitted listings that skipped review — kept
+          in their own clearly-labelled section below everything else,
+          same separation principle as the Google section above. */}
+      {matchingCommunityListings.length > 0 && (
+        <div className="community-listings">
+          <p className="status-note">
+            ⚠️ Community-submitted listings below — not reviewed by our team.
+          </p>
+          <ResultsList results={matchingCommunityListings} userLocation={userLocation} />
+        </div>
       )}
     </section>
   );

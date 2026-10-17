@@ -56,8 +56,13 @@ const EVENT_PIN_COLOR = "#d9822b";
 const USER_PIN_COLOR = "#1f5fb0";
 const GOOGLE_PIN_COLOR = "#4285f4";
 
-function pinColorForCategory(category) {
-  return category === "event" ? EVENT_PIN_COLOR : SERVICE_PIN_COLOR;
+// Accepts either a single `category` string or a merged `categories` array
+// (Explorer.js groups same-venue records across categories for display) --
+// "event" never co-occurs with another category in this dataset, so a
+// venue is only ever event-coloured when every one of its categories is.
+function pinColorForResult(result) {
+  const categories = result.categories || [result.category];
+  return categories.every((c) => c === "event") ? EVENT_PIN_COLOR : SERVICE_PIN_COLOR;
 }
 
 function MarkerPin({ color }) {
@@ -128,8 +133,21 @@ export default function MapView({
     const map = mapRef.current?.getMap();
     if (!map) return;
 
-    const points = results.map((r) => [r.lng, r.lat]);
-    for (const r of googleResults) points.push([r.lng, r.lat]);
+    // When the user has located themselves, Explorer.js has already
+    // distance-sorted `results` (and left any keyword/suburb/category
+    // filters applied) -- but an empty or broad keyword can still mean
+    // "results" spans the entire dataset across Auckland. Framing the
+    // viewport to fit every one of those (plus every Google result, which
+    // isn't distance-sorted at all) zoomed the map OUT to the whole region
+    // on "Find near me" -- the opposite of the point of locating yourself.
+    // Once located, frame around the user and only their nearest matches;
+    // farther matches are still listed below, just not forcing the zoom out.
+    const NEARBY_LIMIT = 10;
+    const resultsForBounds = userLocation ? results.slice(0, NEARBY_LIMIT) : results;
+    const googleResultsForBounds = userLocation ? [] : googleResults;
+
+    const points = resultsForBounds.map((r) => [r.lng, r.lat]);
+    for (const r of googleResultsForBounds) points.push([r.lng, r.lat]);
     if (userLocation) points.push([userLocation.lng, userLocation.lat]);
 
     if (points.length === 0) {
@@ -189,7 +207,7 @@ export default function MapView({
             onSelectResult(result.id);
           }}
         >
-          <MarkerPin color={pinColorForCategory(result.category)} />
+          <MarkerPin color={pinColorForResult(result)} />
         </Marker>
       ))}
 
@@ -230,6 +248,12 @@ export default function MapView({
             <> &middot; {selectedResult.distanceKm.toFixed(1)} km away</>
           )}
           <br />
+          {selectedResult.contact && (
+            <>
+              ☎ {selectedResult.contact}
+              <br />
+            </>
+          )}
           {selectedResult.conditions?.hours && (
             <>
               🕒 {selectedResult.conditions.hours}
