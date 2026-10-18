@@ -122,9 +122,11 @@ export default function ResultsList({ results, onViewOnMap, userLocation }) {
           <RatingWidget serviceId={result.id} />
 
           <p className="result-provenance">
-            Source: {result.source || "unknown"} &middot; Status:{" "}
-            {result.status || "unknown"} &middot; Checked:{" "}
-            {result.checked_date || "unknown"}
+            Source: {result.source || "unknown"} &middot; Info reviewed from
+            their public listing on {result.checked_date || "an unknown date"}
+            {" "}
+            — not confirmed directly with the organisation, so details may
+            have changed since. Contact before visiting.
           </p>
 
           <div className="result-actions">
