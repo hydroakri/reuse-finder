@@ -50,9 +50,13 @@ export default function RatingWidget({ serviceId }) {
   return (
     <div className="rating-widget">
       <span className="rating-summary">
-        {aggregate?.count > 0
-          ? `★ ${aggregate.average.toFixed(1)} (${aggregate.count} rating${aggregate.count === 1 ? "" : "s"})`
-          : "No ratings yet"}
+        {aggregate?.googleOnly
+          ? `★ ${aggregate.average.toFixed(1)} (Google rating, ${aggregate.googleCount} review${aggregate.googleCount === 1 ? "" : "s"} -- no ratings here yet)`
+          : aggregate?.count > 0
+            ? `★ ${aggregate.average.toFixed(1)} (${aggregate.count} rating${aggregate.count === 1 ? "" : "s"}${
+                aggregate.googleBlended ? `, incl. ${aggregate.googleCount} from Google` : ""
+              })`
+            : "No ratings yet"}
       </span>
       {!formOpen ? (
         <button type="button" className="link-button" onClick={() => setFormOpen(true)}>

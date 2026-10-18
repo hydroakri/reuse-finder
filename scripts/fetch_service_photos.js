@@ -1,9 +1,15 @@
 #!/usr/bin/env node
-// SCRUM-74 + SCRUM-22: look up a REAL photo and phone number per curated
-// venue via Google Places Text Search, writing straight into
-// data/services.json (not a reviewable candidate file like scripts/import/
-// -- these are enrichments of already-verified existing records, not new
-// unverified data).
+// SCRUM-74 + SCRUM-22 + rating blend: look up a REAL photo, phone number,
+// and rating per curated venue via Google Places Text Search, writing
+// straight into data/services.json (not a reviewable candidate file like
+// scripts/import/ -- these are enrichments of already-verified existing
+// records, not new unverified data).
+//
+// google_rating/google_rating_count are NOT shown on their own -- /api/
+// ratings only blends them into a venue's rating once that venue has at
+// least one real user rating (see that route's `aggregate()`). An empty
+// local rating state is never backfilled with Google's, deliberately --
+// see that file's comment for why.
 //
 // Safety gate against mismatching a venue to the wrong real-world place
 // (which would misrepresent a real organisation, worse than no photo/phone
@@ -11,15 +17,16 @@
 // our own already-verified lat/lng -- same "same real-world place" distance
 // threshold scripts/import/dedupe.js already uses. No name-only matching.
 //
-// Safe to re-run: a venue already holding both image_url and contact is
-// skipped entirely, so running this again after SCRUM-74's first pass only
-// queries venues still missing one of the two.
+// Safe to re-run: a venue already holding image_url, contact AND
+// google_rating is skipped entirely, so running this again only queries
+// venues still missing at least one of the three.
 //
 // Run with: GOOGLE_PLACES_API_KEY=... node scripts/fetch_service_photos.js
 // Requires network + the same API key used by scripts/import/sources/
 // google_places.js and /api/google-fallback. Cost: one Text Search per
 // unique venue still missing data (venues repeated across categories are
-// only queried once).
+// only queried once) -- rating/review-count ride along in the same
+// request, no extra API calls.
 
 const fs = require("node:fs");
 const path = require("node:path");
@@ -35,7 +42,8 @@ async function searchVenue(record, apiKey) {
     headers: {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": apiKey,
-      "X-Goog-FieldMask": "places.displayName,places.location,places.photos,places.nationalPhoneNumber",
+      "X-Goog-FieldMask":
+        "places.displayName,places.location,places.photos,places.nationalPhoneNumber,places.rating,places.userRatingCount",
     },
     body: JSON.stringify({ textQuery, regionCode: "NZ" }),
   });
@@ -47,6 +55,10 @@ async function searchVenue(record, apiKey) {
 
   const { places = [] } = await response.json();
   return places[0] || null;
+}
+
+function isComplete(record) {
+  return Boolean(record.image_url) && Boolean(record.contact) && typeof record.google_rating === "number";
 }
 
 async function main() {
@@ -74,6 +86,7 @@ async function main() {
 
   let gotPhoto = 0;
   let gotContact = 0;
+  let gotRating = 0;
   let skippedTooFar = 0;
   let skippedNothingFound = 0;
   let skippedAlreadyComplete = 0;
@@ -81,7 +94,7 @@ async function main() {
 
   for (const [, group] of venues) {
     const sample = group[0];
-    if (sample.image_url && sample.contact) {
+    if (isComplete(sample)) {
       skippedAlreadyComplete += group.length;
       continue;
     }
@@ -109,10 +122,12 @@ async function main() {
 
     const photoName = place.photos?.[0]?.name;
     const phone = place.nationalPhoneNumber || null;
+    const rating = typeof place.rating === "number" ? place.rating : null;
+    const ratingCount = typeof place.userRatingCount === "number" ? place.userRatingCount : null;
 
-    if (!photoName && !phone) {
+    if (!photoName && !phone && rating === null) {
       skippedNothingFound += group.length;
-      console.log(`  matched place but no photo or phone available: ${sample.item}`);
+      console.log(`  matched place but no photo, phone or rating available: ${sample.item}`);
       continue;
     }
 
@@ -123,12 +138,17 @@ async function main() {
       if (phone && !record.contact) {
         record.contact = phone;
       }
+      if (rating !== null && typeof record.google_rating !== "number") {
+        record.google_rating = rating;
+        record.google_rating_count = ratingCount || 0;
+      }
     }
     if (photoName) gotPhoto += group.length;
     if (phone) gotContact += group.length;
+    if (rating !== null) gotRating += group.length;
     console.log(
       `  matched: ${sample.item} (${group.length} record(s))` +
-        `${photoName ? " [photo]" : ""}${phone ? " [phone]" : ""}`
+        `${photoName ? " [photo]" : ""}${phone ? " [phone]" : ""}${rating !== null ? ` [rating ${rating}]` : ""}`
     );
   }
 
@@ -137,9 +157,10 @@ async function main() {
   console.log(`\nDone. ${venues.size} unique venue(s) checked.`);
   console.log(`  ${gotPhoto} record(s) got a real photo.`);
   console.log(`  ${gotContact} record(s) got a phone number.`);
-  console.log(`  ${skippedAlreadyComplete} already had both, left untouched.`);
+  console.log(`  ${gotRating} record(s) got a Google rating.`);
+  console.log(`  ${skippedAlreadyComplete} already had all three, left untouched.`);
   console.log(`  ${skippedTooFar} skipped -- best match was further than ${MATCH_DISTANCE_KM * 1000}m away.`);
-  console.log(`  ${skippedNothingFound} skipped -- matched place but Google has neither a photo nor a phone for it.`);
+  console.log(`  ${skippedNothingFound} skipped -- matched place but Google has none of photo/phone/rating for it.`);
   console.log(`  ${skippedNoResult} skipped -- no Places result at all.`);
   console.log(`\nRun 'node scripts/validate_data.js' to confirm services.json is still valid.`);
 }
