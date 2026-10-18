@@ -69,6 +69,12 @@ a {
   margin-bottom: 24px;
 }
 
+.page-subnote {
+  font-size: 0.85rem;
+  margin-top: -16px;
+  margin-bottom: 24px;
+}
+
 .filter-bar {
   position: sticky;
   top: 0;
@@ -149,6 +155,12 @@ a {
   font-size: 0.9rem;
   cursor: pointer;
   text-decoration: underline;
+}
+
+.search-hint {
+  font-size: 0.8rem;
+  color: color-mix(in srgb, var(--foreground) 60%, transparent);
+  margin-bottom: 8px;
 }
 
 .google-toggle {

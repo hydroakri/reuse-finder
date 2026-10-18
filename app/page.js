@@ -12,8 +12,15 @@ export default function Home() {
       <header className="page-header">
         <h1>Auckland Reuse Finder</h1>
         <p>
-          Compare nearby repair, borrow, rental and used-purchase options for
-          household items in Auckland.
+          Find nearby repair, borrow, rental and used-purchase options for
+          household items in Auckland — not a price comparison, just a way
+          to see what&apos;s available near you.
+        </p>
+        <p className="page-subnote">
+          &quot;Repair&quot; covers both volunteer-run repair cafés (usually
+          free or koha-based, limited hours) and commercial repair shops
+          (paid, regular hours) — check each listing&apos;s fee and hours
+          before you go.
         </p>
         <p>
           <Link href="/submit">Suggest a listing &rarr;</Link>

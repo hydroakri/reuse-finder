@@ -39,8 +39,20 @@ const SYNONYMS = {
   fixing: "repair",
 };
 
+// Strips macrons/diacritics (e.g. "Pakūranga" -> "pakuranga") for matching
+// purposes only -- display text elsewhere keeps the real macron spelling.
+// Fixes two things at once: the dataset spells some te reo place names both
+// with and without macrons (e.g. "Pakuranga" and "Pakūranga" both appear as
+// literal suburb values -- a real duplicate-looking pair in the suburb
+// dropdown, reported in a demo), and it lets a plain-ASCII search like
+// "Otara" match an item/suburb spelled "Ōtara" without the user needing to
+// type the macron.
 function normalize(text) {
-  return (text || "").toLowerCase().trim();
+  return (text || "")
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
+    .trim();
 }
 
 // Everyday words people search that don't literally appear in any item
@@ -457,6 +469,12 @@ export default function Explorer({ services, communityListings = [] }) {
           Clear filters
         </button>
       </form>
+
+      <p className="search-hint">
+        Searches match the item name (e.g. &quot;bike&quot; also finds
+        &quot;bicycle&quot;) — try a different word if you don&apos;t find
+        what you&apos;re looking for.
+      </p>
 
       <label className="google-toggle">
         <input
