@@ -4,43 +4,6 @@ Sectioned by Sprint (the team's Scrum terminology) once Sprint 1 actually
 starts (2026-09-21 per the plan); anything before that date falls under
 Iteration Zero, matching the Charter. Not semver.
 
-## Sprint 3 – Demo feedback, community features, data refresh (2026-10-11 to 2026-10-17)
-
-Work was developed 2026-10-12 to 2026-10-17; PRs #12–#15 were merged on 2026-10-18 (NZDT evening).
-
-### Added
-- Opt-in "always show Google results" toggle, rendered as a separate section and never re-ranked with curated results (SCRUM-73, [#12](https://github.com/hydroakri/reuse-finder/pull/12))
-- Generic, category-matched repair tips on repair cards (SCRUM-76)
-- Privacy-respecting aggregate page-load counter (`/api/track-visit`, no cookies/IP/user-agent) and a `/stats` page to view it (SCRUM-77)
-- Photo support: optional `image_url` field, server-proxied Google Places photos (`/api/google-photo`, API key never reaches the client), and 61 of 98 curated venues matched to a real photo under a 150m safety gate (SCRUM-74)
-- User-submitted 5-star ratings with optional comment (`/api/ratings`) (SCRUM-54)
-- Opt-in "show immediately as unverified" on the submit form, stored separately in `data/community_listings.json` and rendered in its own labelled section (SCRUM-78)
-- Contact/phone number field on cards and map popups; 39 records backfilled with a Google-verified number (SCRUM-22)
-- Google rating blended into the displayed rating as a count-weighted average, shown as "Google rating" when no local ratings exist ([#14](https://github.com/hydroakri/reuse-finder/pull/14))
-- Auckland Bagel events refresh: 23 expired events removed, 32 new events added from the 15–26 Oct newsletter ([#13](https://github.com/hydroakri/reuse-finder/pull/13))
-- Dataset update from a teammate: 98 → 199 curated records (`dd8f365`); with events, 208 records total after #13
-
-### Changed
-- Venues offering multiple categories are merged into one card with several category pills instead of duplicate cards (display-only; matching/ranking untouched)
-- Homepage wording no longer implies price comparison; added a short explainer separating volunteer repair cafés (free/koha) from commercial repair shops ([#15](https://github.com/hydroakri/reuse-finder/pull/15))
-- Verification label rewritten in plain language: info was reviewed from the provider's public listing, not confirmed with them — contact before visiting
-- `normalize()` now strips diacritics for matching only, so "Otara" matches "Ōtara Library"; display text keeps macrons
-- `data/services.json` now carries real `google_rating` / `google_rating_count` from a live run of `scripts/fetch_service_photos.js`
-
-### Fixed
-- "Find near me" zoomed out to the whole Auckland region; it now frames the user plus the nearest 10 results
-- Suburb dropdown listed "Pakuranga" and "Pakūranga" separately (92 → 91 options)
-- Submit confirmation always said "sent for review", even on the unverified-immediate path
-- Added a one-line search hint clarifying the Item field matches item names only
-
-### Tested
-- `npm run build` clean and `scripts/validate_data.js` passing on every PR (98 records in #12, 208 in #13–#15)
-- Manual end-to-end checks listed in each PR's test plan (rating POSTs, both submit-form paths, Google photo proxy, Find near me, Google toggle persistence)
-
-### Known gaps / decisions
-- Ratings and community listings are file-backed; no moderation of ratings/comments yet
-- Google ratings are a snapshot from one script run, not refreshed automatically
-
 ## Sprint 2 – Scalable search + data sourcing (2026-10-10)
 
 ### Added
