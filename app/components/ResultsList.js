@@ -1,6 +1,8 @@
 "use client";
 
 import { buildDirectionsUrl } from "../../lib/geo";
+import { getRepairTip } from "../../lib/repairTips";
+import RatingWidget from "./RatingWidget";
 
 const CATEGORY_LABELS = {
   repair: "Repair",
@@ -23,28 +25,68 @@ function safeExternalUrl(url) {
   }
 }
 
+// Same http(s) check as safeExternalUrl, but also allows a same-origin
+// relative path (e.g. "/api/google-photo?name=...") -- used for images,
+// which can come from our own photo-proxy route as well as a genuine
+// external URL. A leading "/" can't carry a javascript:/data: payload, so
+// this stays just as safe as the http(s)-only check above.
+function safeImageUrl(url) {
+  if (typeof url !== "string") return null;
+  if (url.startsWith("/")) return url;
+  return safeExternalUrl(url);
+}
+
 export default function ResultsList({ results, onViewOnMap, userLocation }) {
   return (
     <ul className="results-list">
       {results.map((result) => (
         <li key={result.id} id={`result-${result.id}`} className="result-card">
           <div className="result-card-header">
-            <span className={`category-tag category-${result.category}`}>
-              {CATEGORY_LABELS[result.category] ?? result.category}
-            </span>
+            <div className="category-tags">
+              {(result.categories || [result.category]).map((category) => (
+                <span key={category} className={`category-tag category-${category}`}>
+                  {CATEGORY_LABELS[category] ?? category}
+                </span>
+              ))}
+            </div>
             {typeof result.distanceKm === "number" && (
               <span className="distance-tag">
                 {result.distanceKm.toFixed(1)} km away
               </span>
             )}
           </div>
+          {safeImageUrl(result.image_url) && (
+            // eslint-disable-next-line @next/next/no-img-element -- external,
+            // per-record URLs from community-sourced data; next/image's
+            // domain allowlist would need updating per source, not worth it
+            // at this scale.
+            <img
+              className="result-image"
+              src={safeImageUrl(result.image_url)}
+              alt={result.item}
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+          )}
           <h3>{result.item}</h3>
           <p className="result-suburb">{result.suburb}</p>
           {result.address && <p className="result-address">{result.address}</p>}
 
           {result.notes && <p className="result-notes">{result.notes}</p>}
 
+          {result.category === "repair" && (
+            <p className="repair-tip">💡 {getRepairTip(result.item, result.notes)}</p>
+          )}
+
           <dl className="result-conditions">
+            {result.contact && (
+              <>
+                <dt>Contact</dt>
+                <dd>{result.contact}</dd>
+              </>
+            )}
             {result.conditions?.hours && (
               <>
                 <dt>Hours</dt>
@@ -77,6 +119,8 @@ export default function ResultsList({ results, onViewOnMap, userLocation }) {
             )}
           </dl>
 
+          <RatingWidget serviceId={result.id} />
+
           <p className="result-provenance">
             Source: {result.source || "unknown"} &middot; Status:{" "}
             {result.status || "unknown"} &middot; Checked:{" "}
@@ -94,14 +138,16 @@ export default function ResultsList({ results, onViewOnMap, userLocation }) {
                 View original source &rarr;
               </a>
             )}
-            <a
-              className="result-link"
-              href={buildDirectionsUrl(result, userLocation)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Get directions
-            </a>
+            {typeof result.lat === "number" && typeof result.lng === "number" && (
+              <a
+                className="result-link"
+                href={buildDirectionsUrl(result, userLocation)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Get directions
+              </a>
+            )}
             {onViewOnMap && (
               <button
                 type="button"
