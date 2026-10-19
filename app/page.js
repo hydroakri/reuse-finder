@@ -1,12 +1,34 @@
+import { promises as fs } from "node:fs";
+import path from "node:path";
 import Link from "next/link";
 import Explorer from "./components/Explorer";
 import servicesData from "../data/services.json";
-import communityListingsData from "../data/community_listings.json";
+
+// services.json has no runtime write path (manually curated, changes only
+// via a rebuild), so a static import is fine for it. community_listings.json
+// does have a runtime writer (app/api/submit/route.js) -- a static import
+// of that file gets inlined at `npm run build` time same as the bug
+// documented in app/stats/page.js, so it's read at request time instead and
+// this route is marked force-dynamic so Next doesn't cache a stale render.
+export const dynamic = "force-dynamic";
+
+async function readCommunityListings() {
+  const filePath = path.join(process.cwd(), "data", "community_listings.json");
+  try {
+    const raw = await fs.readFile(filePath, "utf8");
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
 
 // Server Component: data is read from the single source-of-truth JSON file
 // at build/request time. All interactivity (search, filter, map) lives in
 // the Explorer client component below.
-export default function Home() {
+export default async function Home() {
+  const communityListingsData = await readCommunityListings();
+
   return (
     <main className="page">
       <header className="page-header">
