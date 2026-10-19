@@ -14,7 +14,6 @@ const EMPTY_FORM = {
   notes: "",
   image_url: "",
   contact: "",
-  publish_unverified: false,
   submitter_contact: "",
   company_website: "", // honeypot — must stay empty; hidden from real users via CSS
 };
@@ -23,10 +22,6 @@ export default function SubmitPage() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
   const [errorMessage, setErrorMessage] = useState("");
-  // Captured at submit time, since the form (including publish_unverified)
-  // resets right after a successful submission -- the success message needs
-  // to know which path was actually taken.
-  const [lastSubmissionWasUnverified, setLastSubmissionWasUnverified] = useState(false);
 
   function updateField(field) {
     return (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
@@ -49,7 +44,6 @@ export default function SubmitPage() {
         throw new Error(data.error || "Submission failed.");
       }
 
-      setLastSubmissionWasUnverified(form.publish_unverified);
       setStatus("success");
       setForm(EMPTY_FORM);
     } catch (err) {
@@ -66,18 +60,14 @@ export default function SubmitPage() {
       <header className="page-header">
         <h1>Suggest a listing</h1>
         <p>
-          By default, submissions are reviewed by a team member before they
-          appear in search results — this keeps every listing manually
-          verified. You can opt to skip that and show your listing
-          immediately, clearly marked as unverified instead.
+          Submissions are reviewed by a team member before they appear in
+          search results — this keeps every listing manually verified.
         </p>
       </header>
 
       {status === "success" ? (
         <p className="status-note">
-          {lastSubmissionWasUnverified
-            ? "Thanks — your listing is now visible, marked as unverified from the community."
-            : "Thanks — your submission has been sent for review."}
+          Thanks — your submission has been sent for review.
         </p>
       ) : (
         <form className="submit-form" onSubmit={handleSubmit}>
@@ -146,18 +136,6 @@ export default function SubmitPage() {
               value={form.contact}
               onChange={updateField("contact")}
             />
-          </label>
-          <label className="checkbox-field">
-            <input
-              type="checkbox"
-              checked={form.publish_unverified}
-              onChange={(e) =>
-                setForm((prev) => ({ ...prev, publish_unverified: e.target.checked }))
-              }
-            />
-            Show this immediately, marked &quot;unverified, from the community&quot; —
-            skips our review queue (SCRUM-78). Leave unchecked to go through
-            the normal manual-verification process instead.
           </label>
           <label>
             Your contact (optional, in case we have questions)
