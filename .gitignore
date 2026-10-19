@@ -44,3 +44,5 @@ next-env.d.ts
 /data/item_synonyms.suggestions.json
 /data/import_candidates/.last_run.json
 /data/usage_stats.json
+/data/community_listings.json
+/data/ratings.json
